@@ -8,32 +8,20 @@
   vars:
 
     # Parallelization Hints
-    default_parallelization: 5
-    score_parallelization: 2
-    parse_parallelization: 1
 
     # Roles
-    worker_role: reducto-worker
-    parser_role: reducto-parser
-    supervisor_role: reducto-supervisor
 
     # Minimum Role instances
-    min_number: 3
-    min_frontend: 1
-    min_supervisor: 1
-    min_worker: 1
 
     # Seed node ip
-    seed_ip: 10.183.157.175
    
     # Redis address
-    redis_address : "reducto-words.1hm814.0001.use1.cache.amazonaws.com"
 
   tasks:
 
     # Remove old distribution
     - name: Remove old distribution
-      local_action: shell rm -r ../target/reducto-dist
+      local_action: shell rm -r ../target/requirement-dist
       ignore_errors: yes
    
     # Run dist
