@@ -2,7 +2,7 @@
 
 - name: Re-deploy Single
   hosts:
-  - tag_Name_reqroom-01
+  - tag_Name_reqroom
   user: ubuntu
   sudo: true
   gather_facts: false
