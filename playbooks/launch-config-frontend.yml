@@ -25,7 +25,7 @@
  
     # Frontend
     - name: Launch frontend instances
-      local_action: ec2 keypair={{keypair}} group={{security_group}} instance_type={{frontend_instance_type}} image={{image}} wait=true count={{frontend_count}} region={{region}} instance_tags='{"Name":"reducto-frontend-01"}'
+      local_action: ec2 keypair={{keypair}} group={{security_group}} instance_type={{frontend_instance_type}} image={{image}} wait=true count={{frontend_count}} region={{region}} instance_tags='{"Name":"reqroom"}'
       register: ec2
     - name: Add all worker instance public IPs to host group
       local_action: add_host hostname={{item.public_ip}} groupname=launched ansible_ssh_user=ubuntu ansible_ssh_private_key_file=/home/ubuntu/.ssh/Akka.pem
@@ -54,17 +54,17 @@
       - name: Install wget package
         action: apt pkg='wget' state=installed
 
-      - name: Copy Java install script
-        copy: src=files/java.sh dest=/tmp/java.sh mode=777 
+//      - name: Copy Java install script
+//        copy: src=files/java.sh dest=/tmp/java.sh mode=777 
 
-      - name: Extract JRE and build local repository
-        shell: cd /tmp && ./java.sh -7
+//      - name: Extract JRE and build local repository
+//        shell: cd /tmp && ./java.sh -7
 
-      - name: Install JRE
-        apt: pkg=oracle-java7-jre state=installed
+//      - name: Install JRE
+//        apt: pkg=oracle-java7-jre state=installed
 
-      - name: Cleanup Java install
-        shell: rm /tmp/java.sh
+//      - name: Cleanup Java install
+//        shell: rm /tmp/java.sh
 
       - name: Modify soft ulimit
         lineinfile: dest=/etc/security/limits.conf  regexp='^' line='ubuntu           soft    nofile          65500' state=present
