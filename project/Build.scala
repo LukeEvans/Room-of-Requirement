@@ -4,17 +4,17 @@ import akka.sbt.AkkaKernelPlugin
 import akka.sbt.AkkaKernelPlugin.{ Dist, outputDirectory, distJvmOptions}
  
 object ReductoBuild extends Build {
-  val Organization = "reactor.reducto"
+  val Organization = "reactor.requirement"
   val Version      = "0.1.0"
   val ScalaVersion = "2.10.3"
  
   lazy val ReductoDist = Project(
-    id = "reducto-API",
+    id = "requirement-API",
     base = file("."),
     settings = defaultSettings ++ AkkaKernelPlugin.distSettings ++ Seq(
       libraryDependencies ++= Dependencies.reductoKernel,
       distJvmOptions in Dist := "-Xms256M -Xmx1024M",
-      outputDirectory in Dist := file("target/reducto-dist")
+      outputDirectory in Dist := file("target/requirement-dist")
       
     )
   )
