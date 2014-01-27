@@ -2,7 +2,7 @@
 
 - name: Bootstrap upstart
   hosts:
-  - tag_Name_reqroom-frontend-01
+  - tag_Name_reqroom
   user: ubuntu
   sudo: true
   gather_facts: false
@@ -10,5 +10,5 @@
       - name: Copy all upstart configs
         copy: src=files/upstart/{{ item }} dest=/etc/init/
         with_items:
-           - reqroom-frontend.conf
+           - requirement-frontend.conf
 
