@@ -9,7 +9,7 @@
     security_group: Akka
 
     # Instace types
-    frontend_instance_type: m2.2xlarge
+    frontend_instance_type: m1.xlarge
 
     # Image (Ubuntu 12.04)
     image: ami-a73264ce 
@@ -54,17 +54,17 @@
       - name: Install wget package
         action: apt pkg='wget' state=installed
 
-//      - name: Copy Java install script
-//        copy: src=files/java.sh dest=/tmp/java.sh mode=777 
+#      - name: Copy Java install script
+#        copy: src=files/java.sh dest=/tmp/java.sh mode=777 
 
-//      - name: Extract JRE and build local repository
-//        shell: cd /tmp && ./java.sh -7
+#      - name: Extract JRE and build local repository
+#        shell: cd /tmp && ./java.sh -7
 
-//      - name: Install JRE
-//        apt: pkg=oracle-java7-jre state=installed
+#      - name: Install JRE
+#        apt: pkg=oracle-java7-jre state=installed
 
-//      - name: Cleanup Java install
-//        shell: rm /tmp/java.sh
+#      - name: Cleanup Java install
+#        shell: rm /tmp/java.sh
 
       - name: Modify soft ulimit
         lineinfile: dest=/etc/security/limits.conf  regexp='^' line='ubuntu           soft    nofile          65500' state=present
