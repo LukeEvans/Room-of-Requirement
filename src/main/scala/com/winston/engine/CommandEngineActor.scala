@@ -6,6 +6,7 @@ import com.winston.messaging.RequestContainer
 import com.winston.storygraph.StoryGraphAPI
 import com.winston.engine.query.EngineQuery
 import com.winston.messaging.DataContainer
+import com.winston.messaging.CommandRequest
 
 class CommandEngineActor extends Actor {
   var storyGraph = new StoryGraphAPI()
@@ -13,21 +14,15 @@ class CommandEngineActor extends Actor {
   
   def receive = {
     case request:RequestContainer =>
-      processCommand(request.commandRequest.commandString, sender)
+      processCommand(request.commandRequest, sender)
   }
   
-  def processCommand(command:String, origin:ActorRef){
-  	
+  def processCommand(command:CommandRequest, origin:ActorRef){  	
   	// analyze
-  	var query = new EngineQuery()
+  	var query = new EngineQuery(command.commandString)
   	
-  	// query storygraph
-  	var graphResult = storyGraph.getData(command)
-  	
-  	// structure response
-  	var data = resultBuilder.buildResult(query.queryType, graphResult)
+  	var data = query.execute
   	
   	origin ! DataContainer(data)
   }
-
 }
