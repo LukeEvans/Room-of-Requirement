@@ -1,6 +1,6 @@
 package com.winston.engine
 
-import com.winston.storygraph.GraphResult
+import com.winston.apifacades.storygraph.GraphResult
 import java.util.ArrayList
 
 class ResultBuilder {

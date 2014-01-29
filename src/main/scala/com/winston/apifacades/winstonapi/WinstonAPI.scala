@@ -1,7 +1,6 @@
-package com.winston.winstonapi
+package com.winston.apifacades.winstonapi
 
 import java.util.ArrayList
-import com.fasterxml.jackson.databind.JsonNode
 import com.winston.utlities.Tools
 import scala.collection.JavaConversions._
 import com.winston.engine.query.UserCredentials

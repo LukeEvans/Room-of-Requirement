@@ -28,9 +28,6 @@ import scala.compat.Platform
 import reflect.ClassTag
 import akka.pattern.AskTimeoutException
 import akka.routing.RoundRobinRouter
-import com.winston.throttle.Dispatcher
-import com.winston.throttle.TimerBasedThrottler
-import com.winston.throttle.Throttler._
 import com.winston.messaging.CommandRequest
 import com.winston.messaging.RequestContainer
 import com.winston.messaging.ResponseContainer
@@ -111,12 +108,6 @@ trait ApiService extends HttpService {
           val resourcePath = "/usr/local/reducto-dist" + "/config/loader/" + path
           getFromFile(resourcePath)
         }
-        
-//        def initiateRequest(request:ReductoRequest, ctx: RequestContext) {
-//            //val dispatchReq = DispatchRequest(RequestContainer(request), ctx, mapper)
-//        	//throttler.tell(Queue(dispatchReq), Actor.noSender)
-//        }
-        
 }
 
 class ApiActor(engine:ActorRef) extends Actor with ApiService {

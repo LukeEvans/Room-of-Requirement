@@ -3,7 +3,7 @@ package com.winston.engine
 import akka.actor.Actor
 import akka.actor.ActorRef
 import com.winston.messaging.RequestContainer
-import com.winston.storygraph.StoryGraphAPI
+import com.winston.apifacades.storygraph.StoryGraphAPI
 import com.winston.engine.query.EngineQuery
 import com.winston.messaging.DataContainer
 import com.winston.messaging.CommandRequest

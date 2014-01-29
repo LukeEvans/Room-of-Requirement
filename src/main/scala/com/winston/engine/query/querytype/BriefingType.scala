@@ -3,7 +3,7 @@ package com.winston.engine.query.querytype
 import com.winston.engine.query.Word
 import java.util.ArrayList
 import com.winston.engine.QueryData
-import com.winston.winstonapi.WinstonAPI
+import com.winston.apifacades.winstonapi.WinstonAPI
 import com.winston.engine.query.UserCredentials
 
 class BriefingType extends QueryType{

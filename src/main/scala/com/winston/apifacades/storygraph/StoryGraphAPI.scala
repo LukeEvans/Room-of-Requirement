@@ -1,8 +1,6 @@
-package com.winston.storygraph
+package com.winston.apifacades.storygraph
 
 import com.winston.utlities.Tools
-import org.codehaus.jackson.map.DeserializationConfig
-import org.codehaus.jackson.map.ObjectMapper
 
 class StoryGraphAPI {
 	val baseUrl = "http://storygraphv2.elasticbeanstalk.com/"

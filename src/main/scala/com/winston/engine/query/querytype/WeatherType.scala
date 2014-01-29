@@ -2,7 +2,7 @@ package com.winston.engine.query.querytype
 
 import java.util.ArrayList
 import com.winston.engine.query.Word
-import com.winston.winstonapi.WinstonAPI
+import com.winston.apifacades.winstonapi.WinstonAPI
 import com.winston.engine.QueryData
 import com.winston.engine.query.UserCredentials
 
