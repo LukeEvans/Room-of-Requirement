@@ -13,6 +13,7 @@ class BriefingType extends QueryType{
   	  typeString = "brief"
 	  wordBank = new ArrayList[Word]
 	  wordBank.add(new Word("briefing", "brief", 10));
+  	  wordBank.add(new Word("brief", "brief", 10));
 	  wordBank.add(new Word("update", "update", 10));
 	  wordBank.add(new Word("report", "report", 10));
 	}

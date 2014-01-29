@@ -10,7 +10,8 @@ class WinstonAPI {
 	var baseUrl = "http://v036.winstonapi.com"
 	  
 	def weatherCall(loc:String, timezone:Int):ArrayList[Object] = {
-	  var response = Tools.fetchURL(baseUrl+"/weather?loc="+loc+"&timezone_offset="+Integer.toString(timezone));
+	  var weatherUrl = baseUrl+"/weather?loc="+loc+"&timezone_offset="+Integer.toString(timezone)
+	  var response = Tools.fetchURL(weatherUrl);
 	  if(!response.has("data"))
 	    return null
 	  

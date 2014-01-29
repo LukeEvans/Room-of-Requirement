@@ -19,7 +19,7 @@ class CommandEngineActor extends Actor {
   
   def processCommand(command:CommandRequest, origin:ActorRef){  	
   	// analyze
-  	var query = new EngineQuery(command.commandString)
+  	var query = new EngineQuery(command)
   	
   	var data = query.execute
   	

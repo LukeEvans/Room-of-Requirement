@@ -25,16 +25,17 @@ class Categorizer {
 	  types.add(search)
 	}
 	
+	//Figure out QueryType based of wordset
 	def formulate(set:NLPWordSet):QueryType = {
 	  
 	  var typeMap = new HashMap[String, Double]
-	  for(qType <- types)
-	    typeMap.put(qType.typeString, qType.rank(set))
+	  for(queryType <- types)
+	    typeMap.put(queryType.typeString, queryType.rank(set))
 	  	  
-	  getType(getTopRank(typeMap))
+	  getTypeFromList(getTopRankedTypeString(typeMap))
 	}
 	
-	def getTopRank(map:HashMap[String, Double]):String = {
+	def getTopRankedTypeString(map:HashMap[String, Double]):String = {
 	  
 	 var it = map.entrySet().iterator
 	
@@ -49,7 +50,7 @@ class Categorizer {
 	 topValue._1
 	}
 	
-	def getType(queryTypeString:String):QueryType ={
+	def getTypeFromList(queryTypeString:String):QueryType ={
 	  for(qType <- types){
 	    if(qType.typeString.equalsIgnoreCase(queryTypeString))
 	      return qType
