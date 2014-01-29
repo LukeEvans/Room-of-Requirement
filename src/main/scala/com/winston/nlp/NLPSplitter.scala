@@ -26,7 +26,7 @@ class NLPSplitter{
         var tokenModelIn: InputStream = null;
         
        	try { 
-       		tokenModelIn = new FileInputStream("/usr/local/reducto-dist" + "/config/en-token.bin");
+       		tokenModelIn = new FileInputStream("/usr/local/requirement-dist" + "/config/en-token.bin");
        	} catch {
        		case e: Exception => tokenModelIn = new FileInputStream(currentPath + "/src/main/resources/en-token.bin");
        	}
