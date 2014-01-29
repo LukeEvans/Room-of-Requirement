@@ -6,15 +6,12 @@ import spray.can.Http
 import com.reactor.nlp.utilities.IPTools
 import com.typesafe.config.ConfigFactory
 import akka.cluster.Cluster
-import akka.cluster.routing.ClusterRouterConfig
-import akka.cluster.routing.AdaptiveLoadBalancingRouter
-import akka.cluster.routing.ClusterRouterSettings
+import akka.cluster.routing.{ClusterRouterConfig, AdaptiveLoadBalancingRouter, ClusterRouterSettings}
 import akka.kernel.Bootable
 import akka.routing.RoundRobinRouter
 import akka.cluster.ClusterEvent.ClusterDomainEvent
 import com.winston.listener.Listener
 import com.winston.engine.CommandEngineActor
-
 
 //class ApiBoot(args: Array[String]) extends Bootable {
 class ApiBoot extends Bootable {
