@@ -2,6 +2,7 @@ package com.winston.nlp
 
 import scala.collection.JavaConversions._
 import java.util.ArrayList
+import com.winston.engine.query.Word
 
 class NLPWordSet {
 	var set:ArrayList[NLPWord] = null
@@ -26,9 +27,9 @@ class NLPWordSet {
 	  set.add(word)
 	}
 	
-	def setContains(wordString:String):Boolean = {
+	def setContains(otherWord:Word):Boolean = {
 	  for(word <- set){
-	    if(word.equals(wordString))
+	    if(word.equals(otherWord.string) || word.equals(otherWord.lemma))
 	      return true
 	  }
 	  false

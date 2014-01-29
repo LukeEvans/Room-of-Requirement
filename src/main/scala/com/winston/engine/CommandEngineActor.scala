@@ -15,6 +15,7 @@ class CommandEngineActor extends Actor {
   def receive = {
     case request:RequestContainer =>
       processCommand(request.commandRequest, sender)
+    case _:Any => println("unknown message received")
   }
   
   def processCommand(command:CommandRequest, origin:ActorRef){  	

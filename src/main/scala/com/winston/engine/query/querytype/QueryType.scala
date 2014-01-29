@@ -15,10 +15,10 @@ class QueryType {
 	  //initialize wordBank 
 	}
 	
-	def rank(set:NLPWordSet):Double = {
+	def rank(queryWordSet:NLPWordSet):Double = {
 	  var total = 0.0
 	  for(word <- wordBank){
-		  if(set.setContains(word.string.toLowerCase()))
+		  if(queryWordSet.setContains(word))
 			  total += word.weight
 	  }
 	  total

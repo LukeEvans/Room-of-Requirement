@@ -70,44 +70,37 @@ trait ApiService extends HttpService {
                             	}
                             }
                           }
-                  }        
-                }~                        
+                  }     
+                }~                  
                 post{
                   respondWithMediaType(MediaTypes.`application/json`){
                 	  		formFields('text){
                 	  				text =>{
-                	  				val start = Platform.currentTime
+                	  				val response = new Result();
                 	  				val request = new CommandRequest(text, true)
                 	  				complete {
-                	  					engineActor.ask(RequestContainer(request))(10.seconds).mapTo[ResponseContainer] map{
+                	  					engineActor.ask(RequestContainer(request))(10.seconds).mapTo[DataContainer] map{
                 	  						container =>
-                	  						container.response
+                	  						response.finish(container.data.data, mapper)
                 	  					}
                 	  				}
                 	  		  }
                 	  		}~
-                	  		entity(as[String]){ obj => ctx =>
+                	  		entity(as[String]){ obj =>
+                	  		  	val response = new Result();
                 	  			val request = new CommandRequest(obj)
-                	  			complete{
-                	  			  engineActor.ask(RequestContainer(request))(10.seconds).mapTo[ResponseContainer] map{
+                	  			complete{               	  			  
+                	  			  engineActor.ask(RequestContainer(request))(10.seconds).mapTo[DataContainer] map{
                 	  			    container =>
-                	  			      container.response
+                	  			      response.finish(container.data.data, mapper)
                 	  			  }
                 	  			}
                 	  		}
-                    complete{
-                      "OK"
-                    }
                   }        
                 }
         }~        
         path("health"){
-                get{
-                        complete{"OK."}
-                }
-                post{
-                        complete{"OK."}
-                }
+        	complete{"OK."}
         }~
         pathPrefix("css" / Segment) { file =>
           get {
