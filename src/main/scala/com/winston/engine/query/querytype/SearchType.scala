@@ -29,7 +29,7 @@ class SearchType extends QueryType{
 	  wordBank.add(new Word("find", "find", 4));
 	}
 	
-	override def process(query:String):QueryData = {
+	def process(query:String):QueryData = {
 		var graphResult = storyGraph.getData(query)  	
 		// structure response
 		var data = resultBuilder.buildResult(typeString, graphResult)

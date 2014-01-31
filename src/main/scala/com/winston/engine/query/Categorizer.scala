@@ -23,6 +23,12 @@ class Categorizer {
 	  var search = new SearchType
 	  search.init
 	  types.add(search)
+	  var photo = new PhotoType
+	  photo.init
+	  types.add(photo)
+	  var video = new VideoType
+	  video.init
+	  types.add(video)
 	}
 	
 	//Figure out QueryType based of wordset

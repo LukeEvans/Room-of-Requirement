@@ -24,9 +24,9 @@ class QueryType {
 	  total
 	}
 	
-	def process(query:String):QueryData = {
-	  return new QueryData()
-	}
+//	def process(query:String):QueryData = {
+//	  return new QueryData()
+//	}
 	
 	def process(query:String, creds:UserCredentials):QueryData = {
 	  return new QueryData()

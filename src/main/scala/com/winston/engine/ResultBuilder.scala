@@ -11,15 +11,9 @@ class ResultBuilder {
 	  var wiki = new ArrayList[Object]
 	  wiki.add(graphResult.getTopCandidate)
 	  data.addSet(wiki)
+	  data.addSet(graphResult.getNews)
+	  data.addSet(graphResult.getTweets)
 	  
-	  var news = new ArrayList[Object]
-	  news.add(graphResult.getNews)
-	  data.addSet(news)
-	  
-	  var tweets = new ArrayList[Object]
-	  tweets.add(graphResult.getTweets)
-	  data.addSet(tweets)
-	  
-	  return data
+	  data
 	}
 }

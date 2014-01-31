@@ -34,12 +34,6 @@ class WeatherType extends QueryType {
 	  wordBank.add(new Word("is", "is", 1))
 	}
   	
-  	override def process(query:String):QueryData = {
-  	  var data = new QueryData
-  	  data.addSet(winstonAPI.weatherCall("40.0176,-105.2797", 7))	  
-  	  data
-  	}
-  	
    	override def process(query:String, creds:UserCredentials):QueryData = {
   	  var data = new QueryData
   	  data.addSet(winstonAPI.weatherCall(creds.loc, creds.timezone_offset))	  
