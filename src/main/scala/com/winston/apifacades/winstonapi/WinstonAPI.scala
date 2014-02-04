@@ -67,31 +67,22 @@ class WinstonAPI {
 	  
 	  var briefSet = new ArrayList[ArrayList[Object]]
 	  var weatherSet = new ArrayList[Object]
-	  var newsSet = new ArrayList[Object]
-	  var twitterSet = new ArrayList[Object]
-	  var fbSet = new ArrayList[Object]
-	  
 	  weatherSet = weatherCall(creds.loc, creds.timezone_offset)
+	  if(weatherSet != null && !weatherSet.isEmpty())
+	    briefSet.add(weatherSet)
 	  
 	  for(data <- response.get("data")){
 	    if(data.has("type")){
 	      data.get("type").asText() match{
-	        case "News" => newsSet.add(data)
-	        case "Facebook" => fbSet.add(data)
-	        case "Twitter" => twitterSet.add(data)
+	        case "News" | "Facebook" | "Twitter" => {
+	          var newSet = new ArrayList[Object]
+	          newSet.add(data)
+	          briefSet.add(newSet)
+	        }
 	        case a:Any => println("Not added - " + a)
 	      }
 	    }
 	  }
-	  
-	  if(weatherSet != null && !weatherSet.isEmpty())
-	    briefSet.add(weatherSet)
-	  if(!newsSet.isEmpty())
-	    briefSet.add(newsSet)
-	  if(!twitterSet.isEmpty())
-	    briefSet.add(twitterSet)
-	  if(!fbSet.isEmpty())
-	    briefSet.add(fbSet)
 
 	  briefSet
 	}
