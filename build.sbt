@@ -64,6 +64,10 @@ libraryDependencies += "org.slf4j" % "slf4j-api" % "1.7.5"
 
 libraryDependencies += "com.typesafe.akka" % "akka-slf4j_2.10" % "2.2.3"
 
+libraryDependencies += "org.mongodb" %% "casbah" % "2.6.3"
+
+libraryDependencies += "com.novus" %% "salat" % "1.9.5"
+
 libraryDependencies += "me.champeau.jlangdetect" % "jlangdetect-extra" % "0.3" excludeAll(
         ExclusionRule(organization = "javax.jms"),
         ExclusionRule(organization = "com.sun.jdmk"),

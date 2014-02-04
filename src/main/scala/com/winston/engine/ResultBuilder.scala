@@ -13,6 +13,7 @@ class ResultBuilder {
 	  data.addSet(wiki)
 	  data.addSet(graphResult.getNews)
 	  data.addSet(graphResult.getTweets)
+	  data.addSet(graphResult.getYoutube)
 	  
 	  data
 	}

@@ -5,6 +5,7 @@ import java.util.ArrayList
 import com.winston.engine.query.Word
 
 class NLPWordSet {
+    var queryString:String = null
 	var set:ArrayList[NLPWord] = null
 	var sentences:ArrayList[String] = null
 	

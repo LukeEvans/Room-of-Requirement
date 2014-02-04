@@ -1,39 +1,36 @@
 package com.winston.api
 
+import scala.compat.Platform
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
-import scala.concurrent.duration._
+import scala.concurrent.duration.DurationInt
+import com.fasterxml.jackson.core.JsonParseException
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
 import com.fasterxml.jackson.module.scala.experimental.ScalaObjectMapper
-import akka.actor._
+import com.winston.engine.Result
+import com.winston.messaging.CommandRequest
+import com.winston.messaging.DataContainer
+import com.winston.messaging.RequestContainer
+import com.winston.store.MongoStore
+import akka.actor.Actor
 import akka.actor.ActorRef
-import akka.actor.Props
-import akka.cluster.routing.AdaptiveLoadBalancingRouter
-import akka.cluster.routing.ClusterRouterConfig
-import akka.cluster.routing.ClusterRouterSettings
+import akka.pattern.AskTimeoutException
 import akka.pattern.ask
 import akka.util.Timeout
-import play.api.libs.json._
-import spray.http._
-import spray.http.MediaTypes._
-import spray.http.StatusCodes._
-import spray.httpx.unmarshalling._
-import spray.json.DefaultJsonProtocol._
-import spray.routing._
+import akka.util.Timeout.durationToTimeout
+import spray.http.HttpRequest
+import spray.http.MediaTypes
+import spray.http.StatusCodes.BadRequest
+import spray.http.StatusCodes.InternalServerError
+import spray.http.StatusCodes.RequestTimeout
+import spray.httpx.marshalling.ToResponseMarshallable.isMarshallable
+import spray.routing.Directive.pimpApply
+import spray.routing.ExceptionHandler
+import spray.routing.HttpService
+import spray.routing.directives.FieldDefMagnet.apply
 import spray.util.LoggingContext
-import com.fasterxml.jackson.core.JsonParseException
-import scala.compat.Platform
-import reflect.ClassTag
-import akka.pattern.AskTimeoutException
-import akka.routing.RoundRobinRouter
-import com.winston.messaging.CommandRequest
-import com.winston.messaging.RequestContainer
-import com.winston.messaging.ResponseContainer
-import com.winston.engine.Result
-import java.util.ArrayList
-import com.winston.messaging.DataContainer
+import com.winston.dialog.DialogDB
 
 trait ApiService extends HttpService {
   
@@ -49,6 +46,7 @@ trait ApiService extends HttpService {
           get{
         	  //getFromResource("web/index.html") // html index
             complete{
+              var dialogDB = new DialogDB
               "Winston Command-Engine API"
             }
           }
