@@ -5,9 +5,12 @@ import scala.collection.JavaConversions._
 import com.novus.salat._
 import com.novus.salat.global._
 import com.winston.store.MongoStore
+import org.codehaus.jackson.map.ObjectMapper
 
 
 class DialogDB {
+	@transient
+	val mapper = new ObjectMapper()
 	var mongo = new MongoStore("Prime-Dialogs")
 	var dialogs = loadDialogs()
 	
@@ -24,7 +27,7 @@ class DialogDB {
 	  false
 	}
 	
-	def findDialog(dialogString:String):DialogObject = {
+	def findDialog(dialogString:String):Dialog = {
 	  for(dialog <- dialogs){
 	    if(dialog.containsSpeech(dialogString))
 	      return dialog
@@ -32,13 +35,15 @@ class DialogDB {
 	  return null
 	}
 	
-	private def loadDialogs():ArrayList[DialogObject] = {
+	private def loadDialogs():ArrayList[Dialog] = {
 	  var dialogObjects = mongo.findAll
-	  var list = new ArrayList[DialogObject]
+	  var list = new ArrayList[Dialog]
 	  
-	  for(obj <- dialogObjects)
-	    list.add(grater[DialogObject].asObject(obj))
-	  
+	  for(obj <- dialogObjects){
+		  var cleanJson = obj.toString().replaceAll("\\r", " ").replaceAll("\\n", " ").trim
+		  val json = mapper.readTree(cleanJson);	
+		  list.add(new Dialog(json))
+	  }
 	  list
 	}
 }
