@@ -42,13 +42,27 @@ class GraphResult {
     return null
   }
   
-    def getTweets():ArrayList[Object] = {
+  def getTweets():ArrayList[Object] = {
     if(data.has("confluence")){
       if(data.get("confluence").has("topic_twitter")){
         var newsList = new ArrayList[Object]
         
         for (i <- 0 to (data.get("confluence").get("topic_twitter").size() -1))
           newsList.add(data.get("confluence").get("topic_twitter").get(i))
+        
+        return newsList
+      }
+    }
+    return null
+  }
+  
+  def getYoutube():ArrayList[Object] = {
+    if(data.has("confluence")){
+      if(data.get("confluence").has("topic_youtube")){
+        var newsList = new ArrayList[Object]
+        
+        for (i <- 0 to (data.get("confluence").get("topic_youtube").size() -1))
+          newsList.add(data.get("confluence").get("topic_youtube").get(i))
         
         return newsList
       }

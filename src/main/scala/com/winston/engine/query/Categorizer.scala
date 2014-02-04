@@ -3,9 +3,15 @@ package com.winston.engine.query
 import java.util.ArrayList
 import java.util.HashMap
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConversions.asScalaBuffer
 
-import com.winston.engine.query.querytype._
+import com.winston.engine.query.querytype.BriefingType
+import com.winston.engine.query.querytype.DialogType
+import com.winston.engine.query.querytype.PhotoType
+import com.winston.engine.query.querytype.QueryType
+import com.winston.engine.query.querytype.SearchType
+import com.winston.engine.query.querytype.VideoType
+import com.winston.engine.query.querytype.WeatherType
 import com.winston.nlp.NLPWordSet
 
 class Categorizer {
@@ -29,6 +35,10 @@ class Categorizer {
 	  var video = new VideoType
 	  video.init
 	  types.add(video)
+	  var dialog = new DialogType
+	  dialog.init
+	  types.add(dialog)
+	  
 	}
 	
 	//Figure out QueryType based of wordset
@@ -45,7 +55,7 @@ class Categorizer {
 	  
 	 var it = map.entrySet().iterator
 	
-	 var topValue = ("nada", 0.0)
+	 var topValue = ("search", 0.0)
 	 while(it.hasNext){
 	   var pairs = it.next()
 	   

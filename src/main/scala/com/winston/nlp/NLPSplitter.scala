@@ -44,13 +44,14 @@ class NLPSplitter{
         def splitProcess(queryString: String):NLPWordSet = {
           if(queryString == null || queryString.equalsIgnoreCase(""))
         	  return null
-          
+        	  
            var document = new Annotation(queryString)
         		  
           splitProcessor.annotate(document)                        
           var sentenceList = document.get(classOf[SentencesAnnotation])
           
           var set = new NLPWordSet
+          set.queryString = queryString
                                                 
           for(sentence <- sentenceList){
         	  var sentenceString = sentence.get(classOf[TextAnnotation])
