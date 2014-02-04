@@ -25,10 +25,13 @@ class ResponseCard extends Card{
 	}
 	
 	def replaceNames(name:Name):Unit = {
-		if(name == null)
-		  return
+		var replacement:Name = null
+		if(name != null)
+			replacement = name
+		else
+			replacement = new Name("","")
 		  
-		text = text.replaceAll("_USER_", name.string)
-		speech = speech.replaceAll("_USER_", name.scrubbed)
+		text = text.replaceAll("_USER_", replacement.string)
+		speech = speech.replaceAll("_USER_", replacement.scrubbed)
 	}
 }

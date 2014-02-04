@@ -51,7 +51,7 @@ class UserCredentials {
 	  if(reqJson.has("demographic")){
 	    if(reqJson.get("demographic").has("demographic")){
 	      if(reqJson.get("demographic").get("demographic").has("data")){
-	        reqJson.get("demographic").get("demographic").get("data").get("first_name")
+	        name = new Name(reqJson.get("demographic").get("demographic").get("data").get("first_name").asText())
 	      }
 	    }
 	  }
