@@ -21,7 +21,7 @@ class DialogType extends QueryType{
 	  
 	  var data = new QueryData
 	  var dialogSet = new ArrayList[Object]
-	  dialogSet.add(new ResponseCard(dialog))
+	  dialogSet.add(new ResponseCard(dialog, creds.name))
 	  data.addSet(dialogSet)
 	  
 	  data

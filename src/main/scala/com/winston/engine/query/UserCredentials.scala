@@ -1,16 +1,25 @@
 package com.winston.engine.query
 
+import com.winston.user.Name
+import com.winston.store.MongoStore
+import org.codehaus.jackson.map.ObjectMapper
+
 class UserCredentials {
+  	@transient
+	val mapper = new ObjectMapper()
 	var loc:String = null
 	var facebook_token:String = null
 	var twitter_token:String = null
 	var twitter_secret:String = null
 	var udid:String = null
 	var timezone_offset:Int = 0
+	var name:Name = null
+	var mongo = new MongoStore("winston-users")
 	
 	def this(udid:String){
 	  this()
 	  this.udid = udid
+	  mongo = new MongoStore("winston-users")
 	}
 	
 	def setFBToken(facebook_token:String):UserCredentials = {
@@ -30,6 +39,22 @@ class UserCredentials {
 	
 	def setTzOffset(timezone_offset:Int):UserCredentials = {
 	  this.timezone_offset = timezone_offset
+	  this
+	}
+	
+	def getName():UserCredentials = {
+	  if(udid == null)
+	    null
+	  var userJson = mongo.findOneSimple("UDID", udid)
+	  var cleanJson = userJson.toString().replaceAll("\\r", " ").replaceAll("\\n", " ").trim
+	  val reqJson = mapper.readTree(cleanJson);	
+	  if(reqJson.has("demographic")){
+	    if(reqJson.get("demographic").has("demographic")){
+	      if(reqJson.get("demographic").get("demographic").has("data")){
+	        reqJson.get("demographic").get("demographic").get("data").get("first_name")
+	      }
+	    }
+	  }
 	  this
 	}
 }
