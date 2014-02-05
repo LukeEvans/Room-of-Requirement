@@ -4,8 +4,12 @@ import com.winston.engine.query.Word
 import java.util.ArrayList
 import com.winston.engine.QueryData
 import com.winston.engine.query.UserCredentials
+import com.winston.engine.ResultBuilder
+import com.winston.apifacades.storygraph.StoryGraphAPI
 
 class VideoType extends QueryType{
+	var storyGraph = new StoryGraphAPI()
+    var resultBuilder = new ResultBuilder()
 
 	override def init(){
   	  typeString = "video"
@@ -33,10 +37,10 @@ class VideoType extends QueryType{
 	} 
 	
 	override def process(query:String, creds:UserCredentials):QueryData = {
-  	  var data = new QueryData
-  	  var set = new ArrayList[Object]
-  	  set.add("video query")
-  	  data.addSet(set)	  
-  	  data
+		var graphResult = storyGraph.getData(query)
+		// structure response
+		var data = new QueryData
+		data.addSet(graphResult.getYoutube)
+		data
   	}
 }
