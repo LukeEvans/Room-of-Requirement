@@ -18,8 +18,7 @@ class BriefingType extends QueryType{
 	}
   	
   	override def process(query:String, creds:UserCredentials):QueryData = {
-  	  var data = new QueryData
-  	  //data.addSet(winstonAPI.briefingCall(creds))	  
+  	  var data = new QueryData 
   	  data.data = winstonAPI.briefingCall(creds)
   	  data
   	}

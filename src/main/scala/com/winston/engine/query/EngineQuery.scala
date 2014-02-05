@@ -35,6 +35,7 @@ class EngineQuery {
 	  credentials = getCredentials(queryCommand)
 	  var categorizer = new Categorizer("test")
 	  query = formulateQuery(wordSet)
+	  println(query.typeString)
 	  var splitter = new NLPSplitter
 	  splitter.init
 	}

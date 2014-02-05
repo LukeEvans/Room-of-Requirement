@@ -46,6 +46,7 @@ class CommandSpec extends Specification {
       list.add("will it rain tomorrow")
       list.add("what does the weather look like today")
       list.add("give me todays forecast")
+      list.add("Weather")
      
       list
   }
