@@ -7,10 +7,12 @@ import org.codehaus.jackson.JsonNode
 class Dialog {
 	var speechList = new ArrayList[String]
 	var responseList = new ArrayList[Speech]
+	var action_type:String = null
 	
 	def this(json:JsonNode){
 		this()
-		
+		if(json.has("action_type"))
+		  action_type = json.get("action_type").asText()
 		if(json.has("speech"))
 		  speechList = getSpeechList(json.get("speech"))
 		if(json.has("response"))

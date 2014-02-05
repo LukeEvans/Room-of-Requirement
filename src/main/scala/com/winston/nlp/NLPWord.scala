@@ -13,7 +13,7 @@ class NLPWord {
 	}
 	
 	def equals(wordString:String):Boolean = {
-	  if(string.equals(wordString) || 
+	  if(string.equalsIgnoreCase(wordString) || 
 	      lemma.equalsIgnoreCase(wordString)) true else false
 	}
 }
