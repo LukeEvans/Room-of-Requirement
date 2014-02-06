@@ -34,10 +34,10 @@ class NearbyType extends QueryType{
   override def process(query:String, creds:UserCredentials):QueryData = {
     val newQuery = refineQuery(query)
     val yelpSet = winstonAPI.yelpCall(creds, newQuery)
-    val instaSet = winstonAPI.instagramCall(creds, "")
+    //val instaSet = winstonAPI.instagramCall(creds, "")
     var queryData = new QueryData
     queryData.addSet(yelpSet)
-    queryData.addSet(instaSet)
+    //queryData.addSet(instaSet)
     queryData
   }
   
