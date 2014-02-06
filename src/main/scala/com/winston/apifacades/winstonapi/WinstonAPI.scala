@@ -75,6 +75,23 @@ class WinstonAPI {
 		}
 	}
 	
+	def instagramCall(creds:UserCredentials, typeString:String):ArrayList[Object] = {
+		val instagramUrl = baseUrl+"/instagram/location?" + 
+				"lat="+ creds.location.lat.toString() +
+				"&long="+ creds.location.long.toString 
+
+		val response = Tools.fetchURL(instagramUrl)
+
+		response.get("data") match{
+		  case dataNode:JsonNode =>{
+		    var dataList = new ArrayList[Object]
+		    for(data <- dataNode)
+		      dataList.add(data)	      
+		    dataList
+		  }
+		}
+	}
+	
 	def comicCall():ArrayList[Object] = {
 	  val comicURL = baseUrl+"/comics/random/"
 	  val response = Tools.fetchURL(comicURL)
@@ -87,6 +104,5 @@ class WinstonAPI {
 	      dataList
 	    }
 	  }
-	  
 	}
 }
