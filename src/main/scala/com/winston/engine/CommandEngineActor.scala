@@ -7,8 +7,9 @@ import com.winston.apifacades.storygraph.StoryGraphAPI
 import com.winston.engine.query.EngineQuery
 import com.winston.messaging.DataContainer
 import com.winston.messaging.CommandRequest
+import akka.actor.ActorLogging
 
-class CommandEngineActor extends Actor {
+class CommandEngineActor extends Actor with ActorLogging {
   var storyGraph = new StoryGraphAPI()
   var resultBuilder = new ResultBuilder()
   

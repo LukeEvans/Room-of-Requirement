@@ -16,17 +16,6 @@ class EngineQuery {
 	var credentials:UserCredentials = null
 	var splitter = new NLPSplitter
 	splitter.init
-  
-	// Build Query
-	def this(queryString:String){
-	  this()
-	  this.queryString = queryString 
-	  wordSet = processNLP(queryString)
-	  var categorizer = new Categorizer("test")
-	  query = formulateQuery(wordSet)
-	  var splitter = new NLPSplitter
-	  splitter.init
-	}
 	
    def this(queryCommand:CommandRequest){
 	  this()
