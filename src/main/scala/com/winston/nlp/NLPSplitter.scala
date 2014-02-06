@@ -15,6 +15,7 @@ import java.util.ArrayList
 import com.winston.messaging.request
 import com.winston.messaging.request
 import edu.stanford.nlp.ling.CoreAnnotations.TextAnnotation
+import com.winston.messaging.WordSetContainer
 
 class NLPSplitter{
         var currentPath = System.getProperty("user.dir")
@@ -63,7 +64,7 @@ class NLPSplitter{
         		  val span = spans(idx);
         		  set.addWord(new NLPWord(tokens(idx), "", span.getStart()))
         	  }
-          }                        
+          } 
           set
        }
 }

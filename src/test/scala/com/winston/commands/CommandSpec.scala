@@ -10,6 +10,9 @@ class CommandSpec extends Specification {
   testCommands(getBriefingCommands, "brief")
   testCommands(getWeatherCommands, "weather")
   testCommands(getSearchCommands, "search")
+  testCommands(getVideoCommands, "video")
+  testCommands(getPhotoCommands, "photo")
+  testCommands(getNearbyCommands, "nearby")
   
   def testCommands(getCommands:()=>ArrayList[String], typeString:String){
     val request = new CommandRequest()
@@ -30,7 +33,7 @@ class CommandSpec extends Specification {
   }
   
   def getBriefingCommands():ArrayList[String] = {
-      var list = new ArrayList[String]
+      val list = new ArrayList[String]
       list.add("give me a briefing")
       list.add("can I get a briefing")
       list.add("give me a report")
@@ -40,7 +43,7 @@ class CommandSpec extends Specification {
   }
   
   def getWeatherCommands():ArrayList[String] = {
-      var list = new ArrayList[String]
+      val list = new ArrayList[String]
       list.add("what will the weather be like tomorrow")
       list.add("what is the forecast for tomorrow")
       list.add("will it rain tomorrow")
@@ -51,8 +54,8 @@ class CommandSpec extends Specification {
       list
   }
   
-    def getSearchCommands():ArrayList[String] = {
-      var list = new ArrayList[String]
+  def getSearchCommands():ArrayList[String] = {
+      val list = new ArrayList[String]
       list.add("give me some news about")
       list.add("give me some news on")
       list.add("give me some news in")
@@ -87,4 +90,37 @@ class CommandSpec extends Specification {
      
       list
   }
+    
+  def getVideoCommands():ArrayList[String] = {
+    val list = new ArrayList[String]
+    list.add("Show me some videos of cats")
+    list.add("New music videos")
+    list.add("videos of john elway")
+    list.add("can I see some videos of hockey")
+    
+    list
+  }
+  
+  def getPhotoCommands():ArrayList[String] = {
+    val list = new ArrayList[String]
+    list.add("Show me some photos of mountains")
+    list.add("Show me some cool photos")
+    list.add("pictures of dolphins")
+    list.add("can I see some images of dogs")
+    
+    list
+  }
+  
+  def getNearbyCommands():ArrayList[String] = {
+    val list = new ArrayList[String]
+    list.add("What are some places to eat nearby")
+    list.add("What is there to do around here")
+    list.add("nearby coffee shops")
+    list.add("show me some pictures of this area")
+    list.add("where can I find a movie theater")
+    
+    list
+  }
+  
+  
 }
