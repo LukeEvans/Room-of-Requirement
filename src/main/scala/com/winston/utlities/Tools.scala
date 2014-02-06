@@ -24,16 +24,8 @@ import org.apache.commons.lang3.StringEscapeUtils
 
 object Tools {
   
-  def generateRandomNumber():Int = {
-    var Min = 0
-    var Max = 65535
-    
-    var random:Int = Min + (Math.random() * ((Max - Min)+1)).asInstanceOf[Int]
-    
-    random -= 32768
-    
-    return random
-  }
+  def randomInt(min:Int, max:Int):Int = 
+    (min + (Math.random()*((max-min) + 1)).toInt)
   
   def nodeFromMap(map:HashMap[String, Object]):ObjectNode = {
     try{

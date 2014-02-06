@@ -8,9 +8,9 @@ import com.winston.engine.query.UserCredentials
 
 class BriefingType extends QueryType{
 	var winstonAPI = new WinstonAPI
-	
+	typeString = "brief"
+	  
   	override def init(){
-  	  typeString = "brief"
 	  wordBank = new ArrayList[Word]
 	  wordBank.add(new Word("briefing", "brief", 10));
 	  wordBank.add(new Word("update", "update", 10));

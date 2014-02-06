@@ -10,10 +10,9 @@ import com.winston.engine.query.UserCredentials
 class SearchType extends QueryType{
 	var storyGraph = new StoryGraphAPI()
     var resultBuilder = new ResultBuilder()
+	typeString = "search"
   
 	override def init(){
-	  typeString = "search"
-	    
 	  wordBank = new ArrayList[Word]
 	  wordBank.add(new Word("news", "news", 10));
 	  

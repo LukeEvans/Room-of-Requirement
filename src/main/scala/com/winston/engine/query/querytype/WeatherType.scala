@@ -8,9 +8,9 @@ import com.winston.engine.query.UserCredentials
 
 class WeatherType extends QueryType {
 	var winstonAPI = new WinstonAPI
+	typeString = "weather"
 	
   	override def init(){
-  	  typeString = "weather"
   	  
 	  wordBank = new ArrayList[Word]
 	  wordBank.add(new Word("weather", "weather", 10))
