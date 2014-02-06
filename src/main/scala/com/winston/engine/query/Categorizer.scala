@@ -2,9 +2,7 @@ package com.winston.engine.query
 
 import java.util.ArrayList
 import java.util.HashMap
-
 import scala.collection.JavaConversions.asScalaBuffer
-
 import com.winston.engine.query.querytype.BriefingType
 import com.winston.engine.query.querytype.DialogType
 import com.winston.engine.query.querytype.PhotoType
@@ -13,9 +11,20 @@ import com.winston.engine.query.querytype.SearchType
 import com.winston.engine.query.querytype.VideoType
 import com.winston.engine.query.querytype.WeatherType
 import com.winston.nlp.NLPWordSet
+import com.winston.engine.query.querytype.NearbyType
+import com.winston.engine.query.querytype.SupportType
+import com.winston.engine.query.querytype.EntertainmentType
 
 class Categorizer {
-	var types:ArrayList[QueryType] = null
+	var types:ArrayList[QueryType] = new ArrayList[QueryType]
+	types add new BriefingType
+	types add new WeatherType
+	types add new SearchType
+	types add new PhotoType
+	types add new VideoType
+	types add new NearbyType
+	types add new SupportType
+	types add new EntertainmentType
 	
 	def this(string:String) = {
 	  this()
@@ -38,7 +47,15 @@ class Categorizer {
 	  var dialog = new DialogType
 	  dialog.init
 	  types.add(dialog)
-	  
+	  var nearby = new NearbyType
+	  nearby.init
+	  types.add(nearby)
+	  var support = new SupportType
+	  support.init
+	  types.add(support)
+	  var ent = new EntertainmentType
+	  ent.init
+	  types.add(ent)
 	}
 	
 	//Figure out QueryType based of wordset

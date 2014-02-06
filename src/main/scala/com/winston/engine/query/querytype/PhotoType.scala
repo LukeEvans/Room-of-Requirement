@@ -6,10 +6,9 @@ import com.winston.engine.QueryData
 import com.winston.engine.query.UserCredentials
 
 class PhotoType extends QueryType {
+	typeString = "photo"
 
   	override def init(){
-  	  typeString = "photo"
-  	  
 	  wordBank = new ArrayList[Word]
 	  wordBank.add(new Word("photos", "photo", 10))
 	  wordBank.add(new Word("photographs", "photograph", 10))

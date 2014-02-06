@@ -4,6 +4,7 @@ import java.util.ArrayList
 import com.winston.utlities.Tools
 import scala.collection.JavaConversions._
 import com.winston.engine.query.UserCredentials
+import com.fasterxml.jackson.databind.JsonNode
 
 class WinstonAPI {
 	var baseUrl = "http://v036.winstonapi.com"
@@ -19,32 +20,6 @@ class WinstonAPI {
 		  weatherSet.add(data)
 	  
 	  return weatherSet
-	}
-	
-//	def briefingCall(loc:String, timezone:Int, fbToken:String, twitterToken:String, twitterSecret:String):ArrayList[Object] = {
-	def briefingCall2(creds:UserCredentials):ArrayList[Object] = {
-	  var url = baseUrl + "/brief?"
-	  if(creds.udid != null)
-	    url += ("UDID="+ creds.udid + "&")
-	  if(creds.loc != null)
-	    url += ("loc="+ creds.loc + "&")
-	  if(creds.facebook_token != null)
-	    url += ("facebook_token="+ creds.facebook_token + "&")
-	  if(creds.twitter_token != null)
-	    url += ("twitter_token="+ creds.twitter_token + "&")
-	  if(creds.twitter_secret != null)
-	    url += ("twitter_token_secret="+ creds.twitter_secret)	
-	  url += ("timezone_offset="+ creds.timezone_offset + "&")
-	    
-	  var response = Tools.fetchURL(url)
-	  if(!response.has("data"))
-	    return null
-	  
-	  var briefSet = new ArrayList[Object]
-	  for(data <- response.get("data"))
-		  briefSet.add(data)
-	  
-	  return briefSet
 	}
 	
 	def briefingCall(creds:UserCredentials):ArrayList[ArrayList[Object]] = {
@@ -83,7 +58,35 @@ class WinstonAPI {
 	      }
 	    }
 	  }
-
 	  briefSet
+	}
+	
+	def yelpCall(creds:UserCredentials, typeString:String):ArrayList[Object] = {
+		val yelpUrl = baseUrl+"/yelp?"+ "lat="+ creds.location.lat.toString()+"&long="+ creds.location.long.toString + "&type=" +typeString
+		val response = Tools.fetchURL(yelpUrl)
+
+		response.get("data") match{
+		  case dataNode:JsonNode =>{
+		    var dataList = new ArrayList[Object]
+		    for(data <- dataNode)
+		      dataList.add(data)	      
+		    dataList
+		  }
+		}
+	}
+	
+	def comicCall():ArrayList[Object] = {
+	  val comicURL = baseUrl+"/comics/random/"
+	  val response = Tools.fetchURL(comicURL)
+	  
+	  response.get("data") match{
+	    case dataNode:JsonNode =>{
+	      var dataList = new ArrayList[Object]
+	      for(data <-dataNode)
+	        dataList.add(data)
+	      dataList
+	    }
+	  }
+	  
 	}
 }

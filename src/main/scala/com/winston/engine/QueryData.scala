@@ -13,4 +13,8 @@ class QueryData {
 	def addSet(set:ArrayList[Object]){
 	  data.add(set)
 	}
+	
+	def addSetToFront(set:ArrayList[Object]){
+	  data.add(0, set)
+	}
 }

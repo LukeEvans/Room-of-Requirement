@@ -10,9 +10,9 @@ import com.winston.apifacades.storygraph.StoryGraphAPI
 class VideoType extends QueryType{
 	var storyGraph = new StoryGraphAPI()
     var resultBuilder = new ResultBuilder()
+	typeString = "video"
 
 	override def init(){
-  	  typeString = "video"
   	  
 	  wordBank = new ArrayList[Word]
 	  wordBank.add(new Word("videos", "video", 10))

@@ -3,11 +3,13 @@ package com.winston.engine.query
 import com.winston.user.Name
 import com.winston.store.MongoStore
 import org.codehaus.jackson.map.ObjectMapper
+import com.winston.user.Location
 
 class UserCredentials {
   	@transient
 	val mapper = new ObjectMapper()
 	var loc:String = null
+	var location:Location = null
 	var facebook_token:String = null
 	var twitter_token:String = null
 	var twitter_secret:String = null
@@ -33,7 +35,10 @@ class UserCredentials {
 	}
 	
 	def setLoc(loc:String):UserCredentials = {
-	  this.loc = loc
+	  if(loc != null && !loc.equalsIgnoreCase("")){
+		  this.loc = loc
+		  this.location = new Location(loc)
+	  }
 	  this
 	}
 	
