@@ -3,8 +3,10 @@ package com.winston.cards.dialog
 import com.winston.cards.Card
 import com.winston.user.Name
 import com.winston.dialog.Dialog
+import com.winston.utlities.Tools
 
 class ResponseCard extends Card{
+  	var id:String = null
 	val `type` = "prime_speech"
 	var text:String = null
 	var speech:String = null
@@ -14,6 +16,7 @@ class ResponseCard extends Card{
 	  this.text = text
 	  this.speech = speech
 	  replaceNames(name)
+	  id = Tools.generateHash(text)
 	}
 	
 	def this(dialog:Dialog, name:Name){
@@ -22,6 +25,7 @@ class ResponseCard extends Card{
 	  text = response.text
 	  speech = response.speech
 	  replaceNames(name)
+	  id = Tools.generateHash(text)
 	}
 	
 	def replaceNames(name:Name):Unit = {

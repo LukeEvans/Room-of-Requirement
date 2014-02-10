@@ -2,9 +2,11 @@ package com.winston.cards.dialog
 
 import com.winston.cards.Card
 import com.winston.dialog.DialogObject
+import com.winston.utlities.Tools
 
 class DialogCard extends Card{
 	val `type` = "prime_speech"
+	var id:String = null
 	var text:String = null
 	var speech:String = null
 	
@@ -12,6 +14,7 @@ class DialogCard extends Card{
 	  this()
 	  this.text = text
 	  this.speech = text
+	  this.id = Tools.generateHash(text)
 	}
 	
 	def this(dialog:DialogObject){
@@ -19,5 +22,6 @@ class DialogCard extends Card{
 	  var response = dialog.getResponse()
 	  text = response.text
 	  speech = response.speech
+	  this.id = Tools.generateHash(text)
 	}
 }
