@@ -14,6 +14,7 @@ import com.winston.nlp.NLPWordSet
 import com.winston.engine.query.querytype.NearbyType
 import com.winston.engine.query.querytype.SupportType
 import com.winston.engine.query.querytype.EntertainmentType
+import com.winston.messaging.QueryTypeContainer
 
 class Categorizer {
 	var types:ArrayList[QueryType] = new ArrayList[QueryType]
@@ -59,13 +60,13 @@ class Categorizer {
 	}
 	
 	//Figure out QueryType based of wordset
-	def formulate(set:NLPWordSet):QueryType = {
+	def formulate(set:NLPWordSet):QueryTypeContainer = {
 	  
 	  var typeMap = new HashMap[String, Double]
 	  for(queryType <- types)
 	    typeMap.put(queryType.typeString, queryType.rank(set))
 	  	  
-	  getTypeFromList(getTopRankedTypeString(typeMap))
+	  QueryTypeContainer(getTypeFromList(getTopRankedTypeString(typeMap)))
 	}
 	
 	def getTopRankedTypeString(map:HashMap[String, Double]):String = {
