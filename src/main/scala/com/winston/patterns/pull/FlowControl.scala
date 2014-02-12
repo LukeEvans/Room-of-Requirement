@@ -9,8 +9,9 @@ import akka.actor.Actor
 import akka.actor.ActorLogging
 import com.winston.patterns.pull.MasterWorkerProtocol._
 import akka.actor.ActorContext
+import akka.actor.ActorSystem
 
-abstract class FlowControlArgs() {
+class FlowControlArgs() {
   var master:ActorRef = null
   var manager:ActorRef = null
   
@@ -30,11 +31,14 @@ abstract class FlowControlArgs() {
   
 }
 
-case class FlowControlConfig(name:String, actorType:String, parallel:Int=1, role:String="kc-frontend")
+case class FlowControlConfig(name:String, actorType:String, parallel:Int=1, role:String="reducto-frontend")
 
 object FlowControlFactory extends {
-  def flowControlledActorFor(context:ActorContext, flowConfig:FlowControlConfig, args:FlowControlArgs): ActorRef = {
+  def flowControlledActorForContext(context:ActorContext, flowConfig:FlowControlConfig, args:FlowControlArgs = new FlowControlArgs): ActorRef = {
 	  context.actorOf(Props(classOf[FlowControlMaster], flowConfig, args))
+  }
+  def flowControlledActorForSystem(system:ActorSystem, flowConfig:FlowControlConfig, args:FlowControlArgs = new FlowControlArgs): ActorRef = {
+	  system.actorOf(Props(classOf[FlowControlMaster], flowConfig, args))
   }
 }
 
@@ -76,6 +80,6 @@ abstract class FlowControlActor(args:FlowControlArgs) extends Actor with ActorLo
 	
     // Complete work
 	def complete() {
-	  args.manager ! WorkComplete
+	  args.manager ! WorkComplete()
 	}
 }

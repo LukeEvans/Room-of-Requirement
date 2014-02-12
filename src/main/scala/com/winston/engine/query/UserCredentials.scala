@@ -62,4 +62,13 @@ class UserCredentials {
 	  }
 	  this
 	}
+	
+	def setName(written:String, spoken:String):UserCredentials ={
+	  if(written != null && spoken != null){
+		if(!written.equalsIgnoreCase("") && !spoken.equalsIgnoreCase("")){
+		  name = new Name(written, spoken);
+	  	}
+	  }
+	  this
+	}
 }
