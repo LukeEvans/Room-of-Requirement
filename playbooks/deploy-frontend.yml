@@ -11,4 +11,4 @@
         copy: src=../target/requirement-dist dest=/usr/local/
 
       - name: Run Frontend Akka
-        command: nohup /usr/local/requirement-dist/bin/start com.winston.api.ApiBoot &
+        command: nohup /usr/local/requirement-dist/bin/start com.winston.boot.ReqRoomBoot &
