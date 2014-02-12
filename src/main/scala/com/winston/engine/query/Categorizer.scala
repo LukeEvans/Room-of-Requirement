@@ -16,6 +16,7 @@ import com.winston.engine.query.querytype.SupportType
 import com.winston.engine.query.querytype.EntertainmentType
 import com.winston.messaging.QueryTypeContainer
 import com.winston.utlities.Timer
+import com.winston.engine.query.querytype.StocksType
 
 class Categorizer {
 	var types:ArrayList[QueryType] = new ArrayList[QueryType]
@@ -27,6 +28,7 @@ class Categorizer {
 	types add new NearbyType
 	types add new SupportType
 	types add new EntertainmentType
+	types add new StocksType
 	
 	def this(string:String) = {
 	  this()
@@ -58,6 +60,9 @@ class Categorizer {
 	  var ent = new EntertainmentType
 	  ent.init
 	  types.add(ent)
+	  var stocks = new StocksType
+	  stocks.init
+	  types.add(stocks)
 	}
 	
 	//Figure out QueryType based off wordset
