@@ -31,6 +31,7 @@ import spray.routing.HttpService
 import spray.routing.directives.FieldDefMagnet.apply
 import spray.util.LoggingContext
 import com.winston.dialog.DialogDB
+import com.gravity.goose._
 
 trait ApiService extends HttpService {
   
@@ -93,7 +94,7 @@ trait ApiService extends HttpService {
                 	  		}
                   }        
                 }
-        }~        
+        }~
         path("health"){
         	complete{"OK."}
         }~

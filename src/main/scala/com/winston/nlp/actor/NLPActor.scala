@@ -7,9 +7,12 @@ import akka.actor.actorRef2Scala
 import com.winston.nlp.NLPSplitter
 import akka.actor.ActorRef
 import com.winston.masterworker.MasterWorkerProtocol._
+import com.winston.patterns.pull.FlowControlActor
+import com.winston.patterns.pull.FlowControlArgs
 
-class NLPActor(manager:ActorRef) extends Actor with ActorLogging {
-	manager ! ReadyForWork
+class NLPActor(args:FlowControlArgs) extends FlowControlActor(args){
+	
+    ready
   
 	var splitter = new NLPSplitter
 	splitter.init
@@ -26,6 +29,6 @@ class NLPActor(manager:ActorRef) extends Actor with ActorLogging {
 	def process(queryString:String, origin:ActorRef) ={
 	  println("nlp received process")
 	  origin.tell(splitter.splitProcess(queryString), origin)
-	  manager ! WorkComplete("Done")
+	  complete
 	}
 }

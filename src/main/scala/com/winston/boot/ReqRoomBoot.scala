@@ -20,6 +20,7 @@ import com.winston.engine.query.actor.CategorizerActor
 import com.winston.patterns.pull.FlowControlConfig
 import com.winston.patterns.pull.FlowControlFactory
 import com.winston.nlp.actor.NLPMaster
+import com.winston.patterns.pull.FlowControlArgs
 
 class ReqRoomBoot extends Bootable {
   val ip = IPTools.getPrivateIp(); 
@@ -32,14 +33,14 @@ class ReqRoomBoot extends Bootable {
   implicit val system = ActorSystem("NLPClusterSystem-0-1", config)
   
   Cluster(system) registerOnMemberUp{
+  
+    val nlpFlowConfig = FlowControlConfig(name="nlpActor", actorType="com.winston.nlp.actor.NLPActor")
+    val nlpActor = FlowControlFactory.flowControlledActorForSystem(system, nlpFlowConfig)    
     
-    val nlpMaster = system.actorOf(Props(classOf[NLPMaster], 1, "reducto-frontend"))
+    val categorizerConfig = FlowControlConfig(name="categorizerActor", actorType="com.winston.engine.query.actor.CategorizerActor")
+    val categorizerActor = FlowControlFactory.flowControlledActorForSystem(system, categorizerConfig) 
     
-//    val nlpFlowConfig = FlowControlConfig(name="nlpActor", actorType="com.winston.nlp.actor.NLPActor", 1, "reducto-frontend")
-//    val nlpActor = FlowControlFactory.flowControlledActorFor(system., nlpFlowConfig, StorerArgs())    
-    //val nlpActor = system.actorOf(Props(classOf[NLPActor]))
-    val categorizerActor = system.actorOf(Props(classOf[CategorizerActor]))
-    val engineActor = system.actorOf(Props(classOf[CommandEngineActor], nlpMaster, categorizerActor)
+    val engineActor = system.actorOf(Props(classOf[CommandEngineActor], nlpActor, categorizerActor)
     					.withRouter(ClusterRouterConfig(RoundRobinRouter(),ClusterRouterSettings(
     							totalInstances = 100, maxInstancesPerNode = 1, allowLocalRoutees = true,
     							useRole = Some("reducto-frontend")))),

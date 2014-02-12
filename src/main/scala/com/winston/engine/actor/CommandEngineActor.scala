@@ -11,6 +11,7 @@ import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 import com.winston.engine.query.UserCredentials
 import com.winston.engine.QueryData
+import com.winston.utlities.Timer
 
 class CommandEngineActor(nlpMaster:ActorRef, categorizerActor:ActorRef) extends Actor with ActorLogging {
   
@@ -23,17 +24,14 @@ class CommandEngineActor(nlpMaster:ActorRef, categorizerActor:ActorRef) extends 
   
   def processCommand(command:CommandRequest, origin:ActorRef){
     implicit val timeout = Timeout(10 seconds)
-    println("processCommand")
+    
     val query = (nlpMaster ? StringContainer(command.commandString)).mapTo[WordSetContainer]
-    println("nlp asked")
+
     query map{ result =>{
-        result.wordSet.print
         val queryType = (categorizerActor ? result).mapTo[QueryTypeContainer]
         
-        queryType map{ result =>{
-        	println(result.queryType.typeString)
-        	origin ! DataContainer(result.queryType.process(command.commandString, getCredentials(command)))
-          }
+        queryType map{ result => origin ! DataContainer(result.queryType.process(command.commandString, getCredentials(command)))
+          
         }
       }
       
@@ -45,5 +43,5 @@ class CommandEngineActor(nlpMaster:ActorRef, categorizerActor:ActorRef) extends 
 			  							.setTwitterToken(req.twitter_token)
 			  							.setLoc(req.loc)
 			  							.setTzOffset(req.timezone_offset)
-			  							.getName()
+			  							.setName(req.written_name, req.spoken_name)
 }
