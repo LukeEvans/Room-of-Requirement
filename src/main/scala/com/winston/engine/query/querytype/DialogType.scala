@@ -22,12 +22,11 @@ class DialogType extends QueryType{
 	override def process(query:String, creds:UserCredentials):QueryData = {
 	  var dialog = dialogDB.findDialog(query)
 	  var data:QueryData = new QueryData
-	  if(dialog.action_type != null){
-	    data = processAction(dialog.action_type, dialog.action_query, creds)
-	  }
-	  
-	  //var data = new QueryData
 	  var dialogSet = new ArrayList[Object]
+	  
+	  if(dialog.action_type != null)
+	    data = processAction(dialog.action_type, dialog.action_query, creds)
+	  
 	  if(dialog.responseList != null && !dialog.responseList.isEmpty()){
 		  dialogSet.add(new ResponseCard(dialog, creds.name))
 		  data.addSetToFront(dialogSet)

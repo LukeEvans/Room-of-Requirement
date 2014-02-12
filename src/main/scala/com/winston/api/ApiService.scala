@@ -31,7 +31,8 @@ import spray.routing.HttpService
 import spray.routing.directives.FieldDefMagnet.apply
 import spray.util.LoggingContext
 import com.winston.dialog.DialogDB
-import com.gravity.goose._
+import com.winston.engine.query.querytype.NearbyType
+import com.winston.apifacades.winstonapi.WinstonAPI
 
 trait ApiService extends HttpService {
   
