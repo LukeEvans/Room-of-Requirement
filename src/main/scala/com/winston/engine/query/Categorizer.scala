@@ -14,6 +14,9 @@ import com.winston.nlp.NLPWordSet
 import com.winston.engine.query.querytype.NearbyType
 import com.winston.engine.query.querytype.SupportType
 import com.winston.engine.query.querytype.EntertainmentType
+import com.winston.messaging.QueryTypeContainer
+import com.winston.utlities.Timer
+import com.winston.engine.query.querytype.StocksType
 
 class Categorizer {
 	var types:ArrayList[QueryType] = new ArrayList[QueryType]
@@ -25,6 +28,7 @@ class Categorizer {
 	types add new NearbyType
 	types add new SupportType
 	types add new EntertainmentType
+	types add new StocksType
 	
 	def this(string:String) = {
 	  this()
@@ -56,22 +60,26 @@ class Categorizer {
 	  var ent = new EntertainmentType
 	  ent.init
 	  types.add(ent)
+	  var stocks = new StocksType
+	  stocks.init
+	  types.add(stocks)
 	}
 	
-	//Figure out QueryType based of wordset
-	def formulate(set:NLPWordSet):QueryType = {
-	  
-	  var typeMap = new HashMap[String, Double]
+	//Figure out QueryType based off wordset
+	def formulate(set:NLPWordSet):QueryTypeContainer = {  
+	  var typeScores = new HashMap[String, Double]
+
 	  for(queryType <- types)
-	    typeMap.put(queryType.typeString, queryType.rank(set))
-	  	  
-	  getTypeFromList(getTopRankedTypeString(typeMap))
+	    typeScores.put(queryType.typeString, queryType.rank(set))
+	    
+	  QueryTypeContainer(getTypeFromList(getTopRankedTypeString(typeScores)))
 	}
 	
 	def getTopRankedTypeString(map:HashMap[String, Double]):String = {
 	  
 	 var it = map.entrySet().iterator
-	
+	 
+	 //Tuple Format:  (TYPE, SCORE)
 	 var topValue = ("search", 0.0)
 	 while(it.hasNext){
 	   var pairs = it.next()

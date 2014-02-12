@@ -20,10 +20,10 @@ class EngineQuery {
    def this(queryCommand:CommandRequest){
 	  this()
 	  this.queryString = queryCommand.commandString 
-	  wordSet = processNLP(queryString)
+	 // wordSet = processNLP(queryString)
 	  credentials = getCredentials(queryCommand)
 	  var categorizer = new Categorizer("test")
-	  query = formulateQuery(wordSet)
+	  //query = formulateQuery(wordSet)
 	  println(query.typeString)
 	  var splitter = new NLPSplitter
 	  splitter.init
@@ -33,11 +33,11 @@ class EngineQuery {
 	def execute():QueryData = 
 	  query.process(queryString, credentials)
 
-	private def processNLP(query:String):NLPWordSet = 
-	  splitter.splitProcess(query)
+//	private def processNLP(query:String):NLPWordSet = 
+//	  splitter.splitProcess(query)
 	
-	private def formulateQuery(querySet:NLPWordSet):QueryType = 
-	  categorizer.formulate(querySet)
+//	private def formulateQuery(querySet:NLPWordSet):QueryType = 
+//	  categorizer.formulate(querySet)
 	  
 	private def getCredentials(req:CommandRequest):UserCredentials = {
 	  return new UserCredentials(req.udid).setFBToken(req.facebook_token)

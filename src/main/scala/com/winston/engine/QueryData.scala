@@ -10,11 +10,7 @@ class QueryData {
 	  this.data = data
 	}
 	
-	def addSet(set:ArrayList[Object]){
-	  data.add(set)
-	}
+	def addSet(set:ArrayList[Object]):QueryData = { data.add(set); this}
 	
-	def addSetToFront(set:ArrayList[Object]){
-	  data.add(0, set)
-	}
+	def addSetToFront(set:ArrayList[Object]) = data.add(0, set)
 }

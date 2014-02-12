@@ -2,6 +2,7 @@ package com.winston.messaging
 
 import com.winston.engine.Result
 import com.winston.engine.QueryData
+import com.winston.engine.query.querytype.QueryType
 import com.winston.nlp.NLPWordSet
 
 class Message extends Serializable
@@ -15,3 +16,4 @@ case class DataContainer(data:QueryData) extends response
 
 case class StringContainer(string:String) extends Message
 case class WordSetContainer(wordSet:NLPWordSet) extends Message
+case class QueryTypeContainer(queryType:QueryType) extends Message

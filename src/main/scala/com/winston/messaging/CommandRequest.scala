@@ -14,6 +14,8 @@ class CommandRequest extends Message {
 	var twitter_token:String = null
 	var twitter_secret:String = null
 	var timezone_offset:Int = 0
+	var written_name:String = null;
+	var spoken_name:String = null;
 	
 	def this(command:String, bool:Boolean){
 	  this()
@@ -38,6 +40,10 @@ class CommandRequest extends Message {
 	    timezone_offset = reqJson.get("timezone_offset").asInt
 	  if(reqJson.has("udid"))
 	    udid = reqJson.get("udid").asText
+	  if(reqJson.has("written_name"))
+	    written_name = reqJson.get("written_name").asText();
+	  if(reqJson.has("spoken_name"))
+	    spoken_name = reqJson.get("spoken_name").asText();
 	}
 	
 	def this(request:HttpRequest){
@@ -49,5 +55,7 @@ class CommandRequest extends Message {
 	  twitter_secret = if(request.uri.query.get("twitter_secret") != None) request.uri.query.get("twitter_secret").get else null
 	  timezone_offset = if(request.uri.query.get("timezone_offset") != None) request.uri.query.get("timezone_offset").get.toInt else 0
 	  udid = if(request.uri.query.get("udid") != None) request.uri.query.get("udid").get else null
+	  written_name = if(request.uri.query.get("written_name") != None) request.uri.query.get("written_name").get else null
+	  spoken_name = if(request.uri.query.get("spoken_name") != None) request.uri.query.get("spoken_name").get else null
 	}
 }

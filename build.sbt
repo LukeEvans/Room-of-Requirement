@@ -40,7 +40,7 @@ libraryDependencies += "org.apache.httpcomponents" % "httpclient" % "4.0-alpha4"
 
 libraryDependencies += "io.spray" %%  "spray-json" % "1.2.5"
 
-libraryDependencies += "commons-lang" % "commons-lang" % "2.1"
+libraryDependencies += "commons-lang" % "commons-lang" % "2.6"
 
 libraryDependencies += "org.json4s" %% "json4s-native" % "3.2.5"
 
@@ -67,6 +67,18 @@ libraryDependencies += "com.typesafe.akka" % "akka-slf4j_2.10" % "2.2.3"
 libraryDependencies += "org.mongodb" %% "casbah" % "2.6.3"
 
 libraryDependencies += "com.novus" %% "salat" % "1.9.5"
+
+libraryDependencies += "org.jsoup" % "jsoup" % "1.7.3"
+
+libraryDependencies += "junit" % "junit" % "4.8.1"
+
+libraryDependencies += "org.jsoup" % "jsoup" % "1.7.3"
+
+libraryDependencies += "commons-io" % "commons-io" % "2.0.1"
+
+libraryDependencies += "org.apache.httpcomponents" % "httpclient" % "4.1.2"
+
+
 
 libraryDependencies += "me.champeau.jlangdetect" % "jlangdetect-extra" % "0.3" excludeAll(
         ExclusionRule(organization = "javax.jms"),

@@ -42,7 +42,7 @@ class NLPSplitter{
                 tokenModelIn.close()
         }
         
-        def splitProcess(queryString: String):NLPWordSet = {
+        def splitProcess(queryString: String):WordSetContainer = {
           if(queryString == null || queryString.equalsIgnoreCase(""))
         	  return null
         	  
@@ -65,6 +65,6 @@ class NLPSplitter{
         		  set.addWord(new NLPWord(tokens(idx), "", span.getStart()))
         	  }
           } 
-          set
+          WordSetContainer(set)
        }
 }

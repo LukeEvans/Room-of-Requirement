@@ -1,10 +1,12 @@
 package com.winston.apifacades.winstonapi
 
 import java.util.ArrayList
-import com.winston.utlities.Tools
+
 import scala.collection.JavaConversions._
-import com.winston.engine.query.UserCredentials
+
 import com.fasterxml.jackson.databind.JsonNode
+import com.winston.engine.query.UserCredentials
+import com.winston.utlities.Tools
 
 class WinstonAPI {
 	var baseUrl = "http://v036.winstonapi.com"
@@ -105,4 +107,18 @@ class WinstonAPI {
 	    }
 	  }
 	}
+	
+	def stocksCall(creds:UserCredentials):ArrayList[Object] = {
+	  val stocksURL = baseUrl + "/stocks"
+	  val response = Tools.fetchURL(stocksURL)
+	  
+	  response.get("data") match{
+	    case dataNode:JsonNode =>{
+	      var dataList = new ArrayList[Object]
+	      for(data <-dataNode)
+	        dataList.add(data)
+	      dataList
+	    }
+	  }
+ 	}
 }
