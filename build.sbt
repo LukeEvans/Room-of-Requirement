@@ -78,7 +78,7 @@ libraryDependencies += "commons-io" % "commons-io" % "2.0.1"
 
 libraryDependencies += "org.apache.httpcomponents" % "httpclient" % "4.1.2"
 
-
+libraryDependencies += "com.googlecode.batchfb" % "batchfb" % "2.1.3"
 
 libraryDependencies += "me.champeau.jlangdetect" % "jlangdetect-extra" % "0.3" excludeAll(
         ExclusionRule(organization = "javax.jms"),

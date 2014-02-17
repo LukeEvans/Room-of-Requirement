@@ -7,12 +7,12 @@ import java.util.ArrayList
 import scala.collection.JavaConversions._
 
 class CommandSpec extends Specification {
-  testCommands(getBriefingCommands, "brief")
-  testCommands(getWeatherCommands, "weather")
-  testCommands(getSearchCommands, "search")
-  testCommands(getVideoCommands, "video")
-  testCommands(getPhotoCommands, "photo")
-  testCommands(getNearbyCommands, "nearby")
+//  testCommands(getBriefingCommands, "brief")
+//  testCommands(getWeatherCommands, "weather")
+//  testCommands(getSearchCommands, "search")
+//  testCommands(getVideoCommands, "video")
+//  testCommands(getPhotoCommands, "photo")
+//  testCommands(getNearbyCommands, "nearby")
   
   def testCommands(getCommands:()=>ArrayList[String], typeString:String){
     val request = new CommandRequest()

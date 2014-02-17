@@ -1,11 +1,13 @@
 package com.winston.engine.query.querytype
 
 import java.util.ArrayList
+
 import scala.collection.JavaConversions._
+
+import com.winston.apifacades.winstonapi.WinstonAPI
 import com.winston.engine.QueryData
 import com.winston.engine.query.UserCredentials
 import com.winston.engine.query.Word
-import com.winston.apifacades.winstonapi.WinstonAPI
 
 class NearbyType extends QueryType{
   var winstonAPI = new WinstonAPI
@@ -16,7 +18,7 @@ class NearbyType extends QueryType{
     
     wordBank.add(new Word("nearby", "nearby", 10))
     
-    wordBank.add(new Word("close", "close", 5))
+    wordBank.add(new Word("closest", "close", 5))
     wordBank.add(new Word("near", "near", 5))
     wordBank.add(new Word("around", "around", 5))
     
@@ -51,7 +53,25 @@ class NearbyType extends QueryType{
   }
   
   // Get the top words
-  def extractTop():ArrayList[Word] = {
-    null
+  def determineActions(query:String, creds:UserCredentials):QueryData = {
+    val actionList = new ArrayList[() => ArrayList[Object]]
+    	
+    if(query.equalsIgnoreCase("ALL")){
+      actionList.add(funcOf(winstonAPI.instagramCall(creds, "")))
+      actionList.add(funcOf(winstonAPI.yelpCall(creds, "")))
+      actionList.add(funcOf(winstonAPI.weatherCall(creds.loc, creds.timezone_offset)))
+      // add wiki
+    }
+	if(query.contains("photos"))
+	  actionList.add(funcOf(winstonAPI.instagramCall(creds, "")))
+	else
+	  actionList.add(funcOf(winstonAPI.yelpCall(creds, query)))
+
+    val queryData = new QueryData
+    
+    actionList map { fn => queryData.addSet(fn.apply)} 
+
+    queryData  
   }
+ 
 }

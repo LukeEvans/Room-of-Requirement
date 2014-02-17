@@ -31,11 +31,17 @@ import spray.routing.HttpService
 import spray.routing.directives.FieldDefMagnet.apply
 import spray.util.LoggingContext
 import com.winston.dialog.DialogDB
-import com.gravity.goose._
+import com.winston.engine.query.querytype.NearbyType
+import com.winston.apifacades.winstonapi.WinstonAPI
+import com.reactor.facebook.messages.FacebookRequest
+import com.reactor.facebook.messages.FBRequestContainer
+import com.reactor.facebook.messages.ListContainer
+import com.reactor.facebook.messages.FBResult
 
 trait ApiService extends HttpService {
   
   implicit val engineActor:ActorRef
+  implicit val fbActor:ActorRef
   private implicit val timeout = Timeout(5 seconds);
       
   val mapper = new ObjectMapper() with ScalaObjectMapper
@@ -83,7 +89,7 @@ trait ApiService extends HttpService {
                 	  		  }
                 	  		}~
                 	  		entity(as[String]){ obj =>
-                	  		  	val response = new Result();
+                	  		  	val response = new Result()
                 	  			val request = new CommandRequest(obj)
                 	  			complete{               	  			  
                 	  			  engineActor.ask(RequestContainer(request))(10.seconds).mapTo[DataContainer] map{
@@ -94,6 +100,23 @@ trait ApiService extends HttpService {
                 	  		}
                   }        
                 }
+        }~
+        path("fb"){
+          post{
+            respondWithMediaType(MediaTypes.`application/json`){
+              entity(as[String]){
+                obj =>
+                  val response = new FBResult()
+                  val request = new FacebookRequest(obj)
+                  complete{
+                    fbActor.ask(FBRequestContainer(request))(20.seconds).mapTo[ListContainer] map{
+                      container =>
+                        response.finish(container.list, mapper)
+                    }
+                  }
+              }
+            }
+          }
         }~
         path("health"){
         	complete{"OK."}
@@ -109,9 +132,10 @@ trait ApiService extends HttpService {
         }
 }
 
-class ApiActor(engine:ActorRef) extends Actor with ApiService {
+class ApiActor(engine:ActorRef, fb:ActorRef) extends Actor with ApiService {
 	def actorRefFactory = context
-	val engineActor = engine 	
+	val engineActor = engine
+	val fbActor = fb
 	println("Starting API Service actor...")
   
 implicit def ReductoExceptionHandler(implicit log: LoggingContext) =

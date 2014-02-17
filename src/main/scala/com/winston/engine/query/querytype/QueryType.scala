@@ -7,7 +7,7 @@ import com.winston.engine.query.Word
 import com.winston.engine.QueryData
 import com.winston.engine.query.UserCredentials
 
-class QueryType {
+abstract class QueryType {
 	var wordBank:ArrayList[Word] = new ArrayList[Word]
 	var typeString:String = ""
 	  
@@ -23,12 +23,12 @@ class QueryType {
 	  }
 	  total
 	}
-	
-//	def process(query:String):QueryData = {
-//	  return new QueryData()
-//	}
-	
+
+	// process query 
 	def process(query:String, creds:UserCredentials):QueryData = {
 	  return new QueryData()
 	}
+	
+	// Convert function with parameters to anonymous function
+	def funcOf(param: => ArrayList[Object]) = () => param
 }

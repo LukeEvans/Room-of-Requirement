@@ -21,6 +21,10 @@ import com.winston.patterns.pull.FlowControlConfig
 import com.winston.patterns.pull.FlowControlFactory
 import com.winston.nlp.actor.NLPMaster
 import com.winston.patterns.pull.FlowControlArgs
+import com.reactor.facebook.FacebookService
+import com.reactor.facebook.FacebookFetcher
+import com.reactor.facebook.StoryBuilder
+import com.reactor.parsletongue.engine.Topic
 
 class ReqRoomBoot extends Bootable {
   val ip = IPTools.getPrivateIp(); 
@@ -31,6 +35,8 @@ class ReqRoomBoot extends Bootable {
     .withFallback(ConfigFactory.load("reducto"))
     
   implicit val system = ActorSystem("NLPClusterSystem-0-1", config)
+  
+  val topic = new Topic("weather")
   
   Cluster(system) registerOnMemberUp{
   
@@ -46,7 +52,11 @@ class ReqRoomBoot extends Bootable {
     							useRole = Some("reducto-frontend")))),
     							name = "engineActor");
     
-	val service = system.actorOf(Props(classOf[ApiActor], engineActor).withRouter(	
+    val fbBuilder = system.actorOf(Props(classOf[StoryBuilder]))
+    val fbFetch = system.actorOf(Props(classOf[FacebookFetcher], fbBuilder))
+    val fbActor = system.actorOf(Props(classOf[FacebookService], fbFetch))
+    
+	val service = system.actorOf(Props(classOf[ApiActor], engineActor, fbActor).withRouter(	
 	  ClusterRouterConfig(AdaptiveLoadBalancingRouter(akka.cluster.routing.MixMetricsSelector), 
 	  ClusterRouterSettings(
    	  totalInstances = 100, maxInstancesPerNode = 1,
