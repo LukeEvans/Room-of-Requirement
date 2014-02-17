@@ -36,8 +36,6 @@ class ReqRoomBoot extends Bootable {
     
   implicit val system = ActorSystem("NLPClusterSystem-0-1", config)
   
-  val topic = new Topic("weather")
-  
   Cluster(system) registerOnMemberUp{
   
     val nlpFlowConfig = FlowControlConfig(name="nlpActor", actorType="com.winston.nlp.actor.NLPActor")
