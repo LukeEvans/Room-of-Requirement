@@ -18,7 +18,7 @@ class NearbyType extends QueryType{
     
     wordBank.add(new Word("nearby", "nearby", 10))
     
-    wordBank.add(new Word("close", "close", 5))
+    wordBank.add(new Word("closest", "close", 5))
     wordBank.add(new Word("near", "near", 5))
     wordBank.add(new Word("around", "around", 5))
     
@@ -55,11 +55,17 @@ class NearbyType extends QueryType{
   // Get the top words
   def determineActions(query:String, creds:UserCredentials):QueryData = {
     val actionList = new ArrayList[() => ArrayList[Object]]
-  
-	if(query.contains("yelp"))
-	  actionList.add(funcOf(winstonAPI.yelpCall(creds, "")))
+    	
+    if(query.equalsIgnoreCase("ALL")){
+      actionList.add(funcOf(winstonAPI.instagramCall(creds, "")))
+      actionList.add(funcOf(winstonAPI.yelpCall(creds, "")))
+      actionList.add(funcOf(winstonAPI.weatherCall(creds.loc, creds.timezone_offset)))
+      // add wiki
+    }
 	if(query.contains("photos"))
 	  actionList.add(funcOf(winstonAPI.instagramCall(creds, "")))
+	else
+	  actionList.add(funcOf(winstonAPI.yelpCall(creds, query)))
 
     val queryData = new QueryData
     
