@@ -5,11 +5,12 @@ import com.mongodb.casbah.Imports._
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.mongodb.util.JSON
 import java.util.ArrayList
+import com.fasterxml.jackson.databind.JsonNode
 
 class MongoStore(collectString:String) {
 	val uri = MongoURI("mongodb://levans002:dakota1@ds031887.mongolab.com:31887/winston-db")
 	val db = uri.connectDB
-	val mapper = new ObjectMapper();
+
 	val collection = db.right.get.getCollection(collectString)
 	
 	def findOne(queryObject:BasicDBObject):Object = {
@@ -28,6 +29,5 @@ class MongoStore(collectString:String) {
 	    list.add(cursor.next())
 	  }
 	  list
-	}
-	
+	}	
 }

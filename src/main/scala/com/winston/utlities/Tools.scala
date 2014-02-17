@@ -21,12 +21,33 @@ import java.net.URI
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import org.apache.commons.lang3.StringEscapeUtils
+import org.joda.time.DateTimeZone
+import org.joda.time.DateTime
+import com.mongodb.casbah.commons.MongoDBObject
 
 object Tools {
+  @transient
+  private val mapper = new ObjectMapper();
+  
+  
+  def objectToJsonNode(mongoObj:Object):JsonNode = {
+    val cleanObject = mongoObj.toString().replaceAll("\\r", " ").replaceAll("\\n", " ").trim
+    mapper.readTree(cleanObject)	
+  }
   
   def randomInt(min:Int, max:Int):Int = 
     (min + (Math.random()*((max-min) + 1)).toInt)
   
+  def getDateForTZ(timezone:String):DateTime = {
+    var offset = 0
+    if(timezone != null && timezone.length() > 0)
+      offset = Integer.parseInt(timezone) / 3600
+      
+    val dtz = DateTimeZone.forOffsetHours(offset)
+    val date = new DateTime(dtz)
+    date
+  }
+    
   def nodeFromMap(map:HashMap[String, Object]):ObjectNode = {
     try{
       

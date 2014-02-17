@@ -121,4 +121,18 @@ class WinstonAPI {
 	    }
 	  }
  	}
+	
+	def youtubeCall():ArrayList[Object] = {
+	  val stocksURL = baseUrl + "/youtube/popular"
+	  val response = Tools.fetchURL(stocksURL)
+	  
+	  response.get("data") match{
+	    case dataNode:JsonNode =>{
+	      var dataList = new ArrayList[Object]
+	      for(data <-dataNode)
+	        dataList.add(data)
+	      dataList
+	    }
+	  }
+	}
 }

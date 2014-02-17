@@ -4,8 +4,10 @@ import com.winston.engine.query.Word
 import java.util.ArrayList
 import com.winston.engine.QueryData
 import com.winston.engine.query.UserCredentials
+import com.winston.apifacades.winstonapi.WinstonAPI
 
 class PhotoType extends QueryType {
+    val winstonAPI = new WinstonAPI
 	typeString = "photo"
 
   	override def init(){
@@ -32,10 +34,10 @@ class PhotoType extends QueryType {
 	}
   
   	override def process(query:String, creds:UserCredentials):QueryData = {
-  	  var data = new QueryData
   	  var set = new ArrayList[Object]
-  	  set.add("photo query")
-  	  data.addSet(set)	  
-  	  data
+  	  val instaSet = winstonAPI.instagramCall(creds, "")
+  	  val queryData = new QueryData
+  	  queryData.addSet(instaSet)
+  	  queryData
   	}
 }
