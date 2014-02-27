@@ -28,6 +28,7 @@ class CommandEngineActor(nlpMaster:ActorRef, categorizerActor:ActorRef) extends 
     val query = (nlpMaster ? StringContainer(command.commandString)).mapTo[WordSetContainer]
 
     query map{ result =>{
+      
         val queryType = (categorizerActor ? result).mapTo[QueryTypeContainer]
         
         queryType map{ result => origin ! DataContainer(result.queryType.process(command.commandString, getCredentials(command)))

@@ -22,9 +22,9 @@ class PhotoType extends QueryType {
 	  wordBank.add(new Word("show", "show", 7))
 	  wordBank.add(new Word("see", "see", 7))
 	  
-	  wordBank.add(new Word("get", "get", 5))
-	  wordBank.add(new Word("give", "give", 5))
-	  wordBank.add(new Word("of", "of", 5))
+	  wordBank.add(new Word("get", "get", 3))
+	  wordBank.add(new Word("give", "give", 3))
+	  wordBank.add(new Word("of", "of", 3))
 	  
 	  wordBank.add(new Word("me", "me", 3)) 
 	  wordBank.add(new Word("display", "display", 3)) 
