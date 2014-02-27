@@ -13,48 +13,55 @@ case class ActionMethod(method:String, parameters:String)
 class Topic(val topic:String) {
   private val mongo = new MongoStore("Prime-Speech_Topics")
   private val json = Tools.objectToJsonNode(mongo.findOneSimple("topic", topic))
+
   val keywords:List[ScoredText] = getList("keywords", json)
   val phrases:List[ScoredText] = getList("phrases", json)
-  val exactPhrases:List[ScoredText] = getList("phrases", json)
+  val exactPhrases:List[ScoredText] = getList("exact_phrases", json)
   val actions:List[ActionMethod] = getActionList("actions", json)
   
   
   // Score query:String against topic 
-  def scoreQuery(query:String):Double = {
+  def scoreQuery(query:String):Double = {    
     var score = 0.0
-    
+
     exactPhrases map{
       exactPhrase => score += Scorer.contained(query, exactPhrase)
     }
-    
+
     phrases map{
       phrase => score += Scorer.contained(query, phrase)
     }
-    
+
     keywords map{
       keyword => score += Scorer.contained(query, keyword)
     }
-    
+
     score
   }
 
     // create List[ActionMethod] from name field in JsonNode
   private def getActionList(name:String, node:JsonNode):List[ActionMethod] = {
+    if(name == null || name.equalsIgnoreCase("") || node == null )
+      return List()
+      
     node.has(name) match{
       case true => nodeArrayToMethodList(node.get(name))
       case false =>
         println("Error: Failed to get " + name)
-        null
+        List()
     }
   }
   
   // create List[ScoredText] from name field in JsonNode
   private def getList(name:String, node:JsonNode):List[ScoredText] = {
+	if(name == null || name.equalsIgnoreCase("") || node == null )
+      return List()
+    
     node.has(name) match{
       case true => nodeArrayToTextList(node.get(name))
       case false =>
         println("Error: Failed to get " + name)
-        null
+        List()
     }
   }
   
@@ -64,7 +71,7 @@ class Topic(val topic:String) {
     
     keywords map {
       node => getScoredText(node) match{
-        case Some(scoredText) => scoredText :: textList
+        case Some(scoredText) => textList ::= scoredText
         case None => println("Failure: getScoredText()")
       }
     }  
@@ -77,10 +84,11 @@ class Topic(val topic:String) {
     
     keywords map {
       node => getActionMethod(node) match{
-        case Some(actionMethod) => actionMethod :: textList
+        case Some(actionMethod) => textList ::= actionMethod
         case None => println("Failure: getScoredText()")
       }
     }  
+    println(textList)
     textList
   }
   

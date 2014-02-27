@@ -1,9 +1,9 @@
-package com.winston.apifacades.storygraph
+package com.reactor.parsletongue.services.graph
 
 import com.winston.utlities.Tools
 
 class StoryGraphAPI {
-	val baseUrl = "http://accio.winstonapi.com/"
+	val baseUrl = "http://storygraphv2.elasticbeanstalk.com/"
 	
 	def getData(topic:String):GraphResult ={
 		var response = Tools.fetchURL(baseUrl+"metadata?text=" + topic)

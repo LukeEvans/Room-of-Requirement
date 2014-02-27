@@ -11,8 +11,26 @@ class TopicMock extends Specification{
   
   "topic name" should{
     "equal" in{
-      topic.actions.size must beEqualTo(1)
+      topic.topic must beEqualTo("weather")
     }
+  }
+  
+  "topic word size" should{
+	  "equal" in{
+	    topic.keywords.size must beEqualTo(3)
+	  }
+  }
+  
+  "topic phrase size" should{
+	  "equal" in{
+	    topic.phrases.size must beEqualTo(3)
+	  }
+  }
+  
+  "topic exact phrase size" should{
+	  "equal" in{
+	    topic.exactPhrases.size must beEqualTo(3)
+	  }
   }
   
     "topic actions" should{
@@ -20,15 +38,5 @@ class TopicMock extends Specification{
       topic.actions.size must beEqualTo(1)
     }
   }
-
-  
-//  topic.actions must have size(1)
-//  topic.exactPhrases must have size(3)
-//  topic.phrases must have size(3)
-//  topic.keywords must have size(3)
-//  
-//  topic.actions(0).method must beEqualTo("forecast")
-//  topic.exactPhrases(0).text must beEqualTo("what is the weather")
-//  topic.phrases(0).text must beEqualTo("what will")
-//  topic.keywords(0).text must beEqualTo("weather")
+    
 }

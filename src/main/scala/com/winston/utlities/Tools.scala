@@ -24,6 +24,8 @@ import org.apache.commons.lang3.StringEscapeUtils
 import org.joda.time.DateTimeZone
 import org.joda.time.DateTime
 import com.mongodb.casbah.commons.MongoDBObject
+import org.apache.http.entity.StringEntity
+import org.apache.http.client.methods.HttpPost
 
 object Tools {
   @transient
@@ -31,8 +33,12 @@ object Tools {
   
   
   def objectToJsonNode(mongoObj:Object):JsonNode = {
-    val cleanObject = mongoObj.toString().replaceAll("\\r", " ").replaceAll("\\n", " ").trim
-    mapper.readTree(cleanObject)	
+    mongoObj match{
+      case null => null
+      case s:Any =>
+         val cleanObject = mongoObj.toString().replaceAll("\\r", " ").replaceAll("\\n", " ").trim
+         mapper.readTree(cleanObject)	   
+    }
   }
   
   def randomInt(min:Int, max:Int):Int = 
@@ -205,4 +211,27 @@ object Tools {
 		
 		return output;
 	}
+  	
+  	def postJsonString(url:String, jsonString:String):String = {
+	  try {
+		val httpClient = new DefaultHttpClient();
+		val postRequest = new HttpPost(url);
+                        
+		val input = new StringEntity(jsonString);
+                        
+		input.setContentType("application/json");
+		postRequest.setEntity(input);
+		val response = httpClient.execute(postRequest);
+                                
+                        // Testing
+		val reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"));
+        val json = reader.readLine();
+        return json                       
+	  } catch{
+	    case e:Exception =>{
+	      e.printStackTrace()
+	      null
+	    }
+	  }
+  	}
 }
