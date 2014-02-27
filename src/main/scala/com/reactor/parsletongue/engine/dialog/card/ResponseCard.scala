@@ -1,4 +1,4 @@
-package com.winston.cards.dialog
+package com.reactor.parsletongue.engine.dialog.cards.dialog
 
 import com.winston.cards.Card
 import com.winston.user.Name
@@ -8,7 +8,6 @@ import com.winston.utlities.Tools
 class ResponseCard extends Card{
   	var id:String = null
 	val `type` = "prime_speech"
-	val story_type = "prime_speech"
 	var text:String = null
 	var speech:String = null
 	
