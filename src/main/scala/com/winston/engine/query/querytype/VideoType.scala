@@ -19,14 +19,14 @@ class VideoType extends QueryType{
 	  wordBank.add(new Word("vids", "vid", 10))
 	  wordBank.add(new Word("recordings", "recording", 10))
 	  
-	  wordBank.add(new Word("find", "find", 5))
-	  wordBank.add(new Word("show", "show", 5))
-	  wordBank.add(new Word("see", "see", 5))
+	  wordBank.add(new Word("find", "find", 3))
+	  wordBank.add(new Word("show", "show", 3))
+	  wordBank.add(new Word("see", "see", 3))
 	  
 	  
-	  wordBank.add(new Word("get", "get", 5))
-	  wordBank.add(new Word("give", "give", 5))
-	  wordBank.add(new Word("of", "of", 5))
+	  wordBank.add(new Word("get", "get", 3))
+	  wordBank.add(new Word("give", "give", 3))
+	  wordBank.add(new Word("of", "of", 3))
 	  
 	  wordBank.add(new Word("watch", "watch", 3))
 	  wordBank.add(new Word("play", "play", 3))

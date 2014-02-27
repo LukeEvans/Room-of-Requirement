@@ -80,7 +80,7 @@ class Categorizer {
 	 var it = map.entrySet().iterator
 	 
 	 //Tuple Format:  (TYPE, SCORE)
-	 var topValue = ("search", 0.0)
+	 var topValue = ("search", 7.0)
 	 while(it.hasNext){
 	   var pairs = it.next()
 	   
