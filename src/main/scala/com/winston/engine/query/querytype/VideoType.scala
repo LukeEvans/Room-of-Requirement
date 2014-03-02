@@ -37,7 +37,7 @@ class VideoType extends QueryType{
 	} 
 	
 	override def process(query:String, creds:UserCredentials):QueryData = {
-		var graphResult = storyGraph.getData(query)
+		var graphResult = storyGraph.getData(query, None)
 		// structure response
 		var data = new QueryData
 		data.addSet(graphResult.getYoutube)

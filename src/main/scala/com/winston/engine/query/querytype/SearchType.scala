@@ -29,7 +29,7 @@ class SearchType extends QueryType{
 	}
 	
 	def process(query:String):QueryData = {
-		var graphResult = storyGraph.getData(query)  	
+		var graphResult = storyGraph.getData(query, None)  	
 		// structure response
 		var data = resultBuilder.buildResult(typeString, graphResult)
 		data
