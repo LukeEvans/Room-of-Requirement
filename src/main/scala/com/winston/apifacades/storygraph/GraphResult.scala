@@ -44,9 +44,11 @@ class GraphResult {
     val list = new ArrayList[Object]
     
     for(data <- dataArray){
-      if(data.get(0).has("type")){
-        if(data.get(0).get("type").asText().equalsIgnoreCase("youtube"))
-          list.add(data.get(0))
+      for(d <- data){
+        if(d.has("type")){
+          if(d.get("type").asText().equalsIgnoreCase("youtube"))
+            list.add(d)
+        }
       }
     }
     if(list.isEmpty())
