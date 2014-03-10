@@ -6,6 +6,7 @@ import com.winston.engine.QueryData
 import com.winston.apifacades.storygraph.StoryGraphAPI
 import com.winston.engine.ResultBuilder
 import com.winston.engine.query.UserCredentials
+import com.winston.apifacades.storygraph.GraphResult
 
 class SearchType extends QueryType{
 	var storyGraph = new StoryGraphAPI()
@@ -35,6 +36,15 @@ class SearchType extends QueryType{
 		data
 	}
 	
-	override def process(query:String, creds:UserCredentials):QueryData =
-		process(query)
+	override def process(query:String, creds:UserCredentials):QueryData = {
+	  var graphResult:GraphResult = null
+	  if(creds.facebook_token == null || creds.facebook_token.equalsIgnoreCase(""))
+	  	graphResult = storyGraph.getData(query, None)
+	  else
+	    graphResult = storyGraph.getData(query, Some(creds.facebook_token))
+		// structure response
+	  var data = resultBuilder.buildResult(typeString, graphResult)
+      data
+	}
+
 }
