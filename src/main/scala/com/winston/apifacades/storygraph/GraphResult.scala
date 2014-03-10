@@ -16,9 +16,12 @@ class GraphResult {
   
   def this(node:JsonNode){
     this()
-    if(node.has("data")){
-      data = node.get("data")
-      dataArray = buildData(data)
+//    if(node.has("data")){
+//      data = node.get("data")
+//      dataArray = buildData(data)
+//    }
+    if(!node.isEmpty && node != null){
+      dataArray = buildData(node)
     }
   }
   

@@ -4,7 +4,7 @@ import com.winston.utlities.Tools
 import com.fasterxml.jackson.databind.JsonNode
 
 class StoryGraphAPI {
-	val baseUrl = "http://accio.winstonapi.com/"
+	val baseUrl = "http://accio.winstonapi.com:8080/"
 	
 	def getData(topic:String, fb_token:Option[String]):GraphResult ={
 	  var response:JsonNode = null
