@@ -1,0 +1,8 @@
+dist_name:
+  - requirement-dist
+  
+upstart_daemons:
+  - requirement-frontend
+
+local:
+  - localhost
