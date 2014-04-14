@@ -30,4 +30,15 @@ class MongoStore(collectString:String) {
 	  }
 	  list
 	}	
+		
+	def insert(dbObj:DBObject){
+	  
+	  collection.insert(dbObj)
+	}
+	
+	
+	/** Get the size of the collection */
+	def size() = {
+	  collection.count()
+	}
 }

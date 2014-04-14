@@ -37,6 +37,7 @@ import com.reactor.facebook.messages.FacebookRequest
 import com.reactor.facebook.messages.FBRequestContainer
 import com.reactor.facebook.messages.ListContainer
 import com.reactor.facebook.messages.FBResult
+import com.winston.word2vec.Word2Vec
 
 trait ApiService extends HttpService {
   
@@ -48,6 +49,11 @@ trait ApiService extends HttpService {
       mapper.registerModule(DefaultScalaModule)
       mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
       
+  val model = new Word2Vec()
+  //model.load("/Users/kevincolin/Development/Word2Vec/GoogleNews-vectors-negative300.bin")
+  
+  val mongo = new MongoStore("word2vec")
+      
   val apiRoute =
         path(""){
           get{
@@ -55,6 +61,16 @@ trait ApiService extends HttpService {
             complete{
               var dialogDB = new DialogDB
               "Winston Command-Engine API"
+            }
+          }
+        }~
+        path("word2vec"){
+          get{
+            
+            complete{
+              var dist = model.dist("weather", "forecast")
+              
+              "The distance between " + dist._1 + " and " + dist._2 + " is " + dist._3
             }
           }
         }~
