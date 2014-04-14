@@ -2,6 +2,9 @@ package com.winston.messaging
 
 import org.codehaus.jackson.map.ObjectMapper
 import spray.http.HttpRequest
+import scala.collection.mutable.ListBuffer
+import scala.collection.JavaConversions._
+import org.codehaus.jackson.JsonNode
 
 class CommandRequest extends Message {
 	@transient
@@ -16,6 +19,7 @@ class CommandRequest extends Message {
 	var timezone_offset:Int = 0
 	var written_name:String = null;
 	var spoken_name:String = null;
+	var stocks:List[String] = null
 	
 	def this(command:String, bool:Boolean){
 	  this()
@@ -44,6 +48,8 @@ class CommandRequest extends Message {
 	    written_name = reqJson.get("written_name").asText();
 	  if(reqJson.has("spoken_name"))
 	    spoken_name = reqJson.get("spoken_name").asText();
+	  if(reqJson.has("stocks"))
+	    stocks = toStringList(reqJson.get("stocks"))
 	}
 	
 	def this(request:HttpRequest){
@@ -57,5 +63,11 @@ class CommandRequest extends Message {
 	  udid = if(request.uri.query.get("udid") != None) request.uri.query.get("udid").get else null
 	  written_name = if(request.uri.query.get("written_name") != None) request.uri.query.get("written_name").get else null
 	  spoken_name = if(request.uri.query.get("spoken_name") != None) request.uri.query.get("spoken_name").get else null
+	}
+	
+	
+	private def toStringList(listNode:JsonNode):List[String] = {
+	  
+	  listNode.map(node => node.asText()).toList
 	}
 }

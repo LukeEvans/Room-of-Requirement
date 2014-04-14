@@ -44,6 +44,7 @@ class EngineQuery {
 			  							.setTwitterToken(req.twitter_token)
 			  							.setLoc(req.loc)
 			  							.setTzOffset(req.timezone_offset)
+			  							.setStocks(req.stocks)
 			  							.getName()
 			  							
 	}

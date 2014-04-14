@@ -31,7 +31,7 @@ class CommandEngineActor(nlpMaster:ActorRef, categorizerActor:ActorRef) extends 
       
         val queryType = (categorizerActor ? result).mapTo[QueryTypeContainer]
         
-        queryType map{ result => origin ! DataContainer(result.queryType.process(command.commandString, getCredentials(command)))
+        queryType map{ result => println(result.queryType.typeString); origin ! DataContainer(result.queryType.process(command.commandString, getCredentials(command)))
           
         }
       }
@@ -45,4 +45,5 @@ class CommandEngineActor(nlpMaster:ActorRef, categorizerActor:ActorRef) extends 
 			  							.setLoc(req.loc)
 			  							.setTzOffset(req.timezone_offset)
 			  							.setName(req.written_name, req.spoken_name)
+			  							.setStocks(req.stocks)
 }

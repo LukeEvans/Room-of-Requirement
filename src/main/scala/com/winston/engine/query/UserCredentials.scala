@@ -15,6 +15,7 @@ class UserCredentials {
 	var twitter_secret:String = null
 	var udid:String = null
 	var timezone_offset:Int = 0
+	var stocks:List[String] = null
 	var name:Name = null
 	var mongo = new MongoStore("winston-users")
 	
@@ -69,6 +70,15 @@ class UserCredentials {
 		  name = new Name(written, spoken);
 	  	}
 	  }
+	  this
+	}
+	
+	
+	def setStocks(stocks:List[String]):UserCredentials = {
+	  
+	  if(stocks != null && stocks.length > 0)
+	    this.stocks = stocks
+	  
 	  this
 	}
 }
