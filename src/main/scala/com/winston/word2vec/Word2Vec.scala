@@ -103,10 +103,10 @@ class Word2Vec {
   private val mongo = new MongoStore("word2vec")
   
   /** Number of words */
-  private var numWords = 0
+  private var numWords = mongo.size.toInt
 
   /** Number of floating-point values associated with each word (i.e., length of the vectors) */
-  private var vecSize = mongo.size.toInt
+  private var vecSize = 300
 
   /** Load data from a binary file.
     * @param filename Path to file containing word projections in the BINARY FORMAT.
@@ -189,20 +189,22 @@ class Word2Vec {
     //vocab.getOrElse(word, Array[Float]())
     val obj = mongo.findOneSimple("word", word)
     
-    val json = Tools.objectToJsonNode(obj)
+    if(obj != null){
+      val json = Tools.objectToJsonNode(obj)
     
-    if(json.has("vector")){
-      val arraySize = json.get("vector").size()
+      if(json.has("vector")){
+        val arraySize = json.get("vector").size()
       
-      var array =  new Array[Float](arraySize)
+        var array =  new Array[Float](arraySize)
       
-      var i = 0
+        var i = 0
       
-      json.get("vector").foreach{node => 
-        array(i) = node.asDouble().toFloat
-        i += 1
+        json.get("vector").foreach{node => 
+          array(i) = node.asDouble().toFloat
+          i += 1
+        }
+        return array
       }
-      return array
     }
 
     return null
@@ -278,13 +280,27 @@ class Word2Vec {
     * @param input The input word(s).
     * @return The sum vector (aggregated from the input vectors).
     */
-//  def sumVector(input: List[String]): Array[Float] = {
-//    // Find the vector representation for the input. If multiple words, then aggregate (sum) their vectors.
-//    input.foreach(w => assert(contains(w), "Out of dictionary word! " + w))
-//    val vector = new Array[Float](vecSize)
-//    input.foreach(w => for (j <- 0 until vector.length) vector(j) += vocab.get(w).get(j))
-//    vector
-//  }
+   def sumVector(input: List[String]): Array[Float] = {
+     // Find the vector representation for the input. If multiple words, then aggregate (sum) their vectors.
+     //input.foreach(w => assert(contains(w), "Out of dictionary word! " + w))
+     
+     val vector1 = new Array[Float](vecSize)
+     
+     input.foreach{
+       w => 
+         val w2 = vector(w)
+         
+         if(w2 != null){
+        	 for (j <- 0 until vector1.length) 
+        		 vector1(j) += w2(j)
+         }
+         else{
+           println("Out of dictionary word skipped! " + w)
+         }
+     }
+     
+     vector1
+   }
 
   /** Find N closest terms in the vocab to the given vector, using only words from the in-set (if defined)
     * and excluding all words from the out-set (if non-empty).  Although you can, it doesn't make much
@@ -295,36 +311,49 @@ class Word2Vec {
     * @param N The maximum number of terms to return (default to 40).
     * @return The N closest terms in the vocab to the given vector and their associated cosine similarity scores.
     */
-//  def nearestNeighbors(vector: Array[Float], inSet: Option[Set[String]] = None,
-//                       outSet: Set[String] = Set[String](), N: Integer = 40)
-//  : List[(String, Float)] = {
-//    // For performance efficiency, we maintain the top/closest terms using a priority queue.
-//    // Note: We invert the distance here because a priority queue will dequeue the highest priority element,
-//    //       but we would like it to dequeue the lowest scoring element instead.
-//    val top = new mutable.PriorityQueue[(String, Float)]()(Ordering.by(-_._2))
-//
-//    // Iterate over each token in the vocab and compute its cosine score to the input.
-//    var dist = 0f
+  def nearestNeighbors(vector: Array[Float], N: Integer = 40)
+  : List[(String, Float)] = {
+    // For performance efficiency, we maintain the top/closest terms using a priority queue.
+    // Note: We invert the distance here because a priority queue will dequeue the highest priority element,
+    //       but we would like it to dequeue the lowest scoring element instead.
+    val top = new mutable.PriorityQueue[(String, Float)]()(Ordering.by(-_._2))
+
+    // Iterate over each token in the vocab and compute its cosine score to the input.
+    var dist = 0f
 //    val iterator = if (inSet.isDefined) vocab.filterKeys(k => inSet.get.contains(k)).iterator else vocab.iterator
-//    iterator.foreach(entry => {
-//      // Skip tokens in the out set
-//      if (!outSet.contains(entry._1)) {
-//        dist = cosine(vector, entry._2).toFloat
-//        if (top.size < N || top.head._2 < dist) {
-//          top.enqueue((entry._1, dist))
-//          if (top.length > N) {
-//            // If the queue contains over N elements, then dequeue the highest priority element
-//            // (which will be the element with the lowest cosine score).
-//            top.dequeue()
-//          }
-//        }
-//      }
-//    })
-//
-//    // Return the top N results as a sorted list.
-//    assert(top.length <= N)
-//    top.toList.sortWith(_._2 > _._2)
-//  }
+    
+    val iterator = mongo.findFirst
+    
+    var count = 0
+    
+    while(iterator.hasNext()){
+      
+      val json = Tools.objectToJsonNode(iterator.next())
+      
+      val name = json.get("word").asText()
+    	
+      println("processing " + name + " " + count)
+    	
+      val array = json.get("vector").map( subNode => subNode.asDouble().toFloat)
+    	
+      dist = cosine(vector, array.toArray).toFloat
+      if (top.size < N || top.head._2 < dist) {
+    	top.enqueue((name, dist))
+    	if (top.length > N) {
+            // If the queue contains over N elements, then dequeue the highest priority element
+            // (which will be the element with the lowest cosine score).
+    	  top.dequeue()
+    	}
+      }
+      
+      count += 1
+      
+    }
+
+    // Return the top N results as a sorted list.
+    assert(top.length <= N)
+    top.toList.sortWith(_._2 > _._2)
+  }
 
   /** Find the N closest terms in the vocab to the input word(s).
     * @param input The input word(s).
@@ -369,11 +398,12 @@ class Word2Vec {
 //    }
 //
 //    // Find the vector approximation for the missing analogy.
-//    val vector = new Array[Float](vecSize)
-//    for (j <- 0 until vector.length)
-//      vector(j) = vocab.get(word2).get(j) - vocab.get(word1).get(j) + vocab.get(word3).get(j)
+//    val vector1 = new Array[Float](vecSize)
+//    for (j <- 0 until vector1.length)
+//      vector1(j) = vector(word2)(j) - vector(word1)(j) + vector(word3)(j)
 //
 //    nearestNeighbors(normalize(vector), outSet = Set(word1, word2, word3), N = N)
+//    return null
 //  }
 
   /** Rank a set of words by their respective distance to some central term.
@@ -421,32 +451,5 @@ class Word2Vec {
     println("\n%50s".format("Word") + (" " * 7) + "Cosine distance\n" + ("-" * 72))
     println(words.map(s => "%50s".format(s._1) + (" " * 7) + "%15f".format(s._2)).mkString("\n"))
   }
-
-}
-
-
-/** ********************************************************************************
-  * Demo of the Scala ported word2vec model.
-  * ********************************************************************************
-  */
-object RunWord2Vec {
-
-  /** Demo. */
-  def main(args: Array[String]) {
-    // Load word2vec model from binary file.
-    val model = new Word2Vec()
-    model.load("vectors.bin")
-
-    // distance: Find N closest words
-//    model.pprint(model.distance(List("france"), N = 10))
-//    model.pprint(model.distance(List("france", "usa")))
-//    model.pprint(model.distance(List("france", "usa", "usa")))
-//
-//    // analogy: "king" is to "queen", as "man" is to ?
-//    model.pprint(model.analogy("king", "queen", "man", N = 10))
-//
-//    // rank: Rank a set of words by their respective distance to the central term
-//    model.pprint(model.rank("apple", Set("orange", "soda", "lettuce")))
-  }
-
+  
 }

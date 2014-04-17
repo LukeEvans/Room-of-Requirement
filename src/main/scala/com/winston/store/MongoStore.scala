@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.mongodb.util.JSON
 import java.util.ArrayList
 import com.fasterxml.jackson.databind.JsonNode
+import com.mongodb.DBCursor
 
 class MongoStore(collectString:String) {
 	val uri = MongoURI("mongodb://levans002:dakota1@ds031887.mongolab.com:31887/winston-db")
@@ -20,6 +21,10 @@ class MongoStore(collectString:String) {
 	def findOneSimple(field:String, value:String):Object = {
 	  var queryObject = new BasicDBObject(field, value)
 	  findOne(queryObject)
+	}
+	
+	def findFirst():DBCursor = {
+	  collection.find()
 	}
 	
 	def findAll():ArrayList[MongoDBObject] = {
@@ -40,5 +45,17 @@ class MongoStore(collectString:String) {
 	/** Get the size of the collection */
 	def size() = {
 	  collection.count()
+	}
+	
+	
+	/** */
+	def findAny():MongoDBObject = {
+	  
+	  val cursor = collection.find()
+	  
+	  if(cursor.hasNext())
+	    return cursor.next()
+	  else
+	    null
 	}
 }

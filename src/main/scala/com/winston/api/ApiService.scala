@@ -38,11 +38,15 @@ import com.reactor.facebook.messages.FBRequestContainer
 import com.reactor.facebook.messages.ListContainer
 import com.reactor.facebook.messages.FBResult
 import com.winston.word2vec.Word2Vec
+import com.winston.word2vec.Word2VecQueryAnalyzer
+import com.winston.messaging.StringContainer
 
 trait ApiService extends HttpService {
   
   implicit val engineActor:ActorRef
   implicit val fbActor:ActorRef
+  implicit val w2vActor:ActorRef
+  
   private implicit val timeout = Timeout(5 seconds);
       
   val mapper = new ObjectMapper() with ScalaObjectMapper
@@ -50,9 +54,7 @@ trait ApiService extends HttpService {
       mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
       
   val model = new Word2Vec()
-  //model.load("/Users/kevincolin/Development/Word2Vec/GoogleNews-vectors-negative300.bin")
-  
-  val mongo = new MongoStore("word2vec")
+
       
   val apiRoute =
         path(""){
@@ -66,11 +68,19 @@ trait ApiService extends HttpService {
         }~
         path("word2vec"){
           get{
-            
-            complete{
-              var dist = model.dist("weather", "forecast")
+            respondWithMediaType(MediaTypes.`application/json`){
+              entity(as[HttpRequest]){ request => 
+
+                val string = if(request.uri.query.get("text") != None) request.uri.query.get("text").get else null
+                
+                complete {
+                  
+                  if(string != null)
+                	  w2vActor.tell(string, w2vActor)
               
-              "The distance between " + dist._1 + " and " + dist._2 + " is " + dist._3
+                  "complete"
+                }
+           	  }
             }
           }
         }~
@@ -148,10 +158,11 @@ trait ApiService extends HttpService {
         }
 }
 
-class ApiActor(engine:ActorRef, fb:ActorRef) extends Actor with ApiService {
+class ApiActor(engine:ActorRef, fb:ActorRef, w2v:ActorRef) extends Actor with ApiService {
 	def actorRefFactory = context
 	val engineActor = engine
 	val fbActor = fb
+	val w2vActor = w2v
 	println("Starting API Service actor...")
   
 implicit def ReductoExceptionHandler(implicit log: LoggingContext) =
