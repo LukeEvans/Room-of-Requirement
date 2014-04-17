@@ -25,6 +25,7 @@ import com.reactor.facebook.FacebookService
 import com.reactor.facebook.FacebookFetcher
 import com.reactor.facebook.StoryBuilder
 import com.reactor.parsletongue.engine.Topic
+import com.winston.word2vec.WordVectorAnalyzerActor
 
 class ReqRoomBoot extends Bootable {
   val ip = IPTools.getPrivateIp(); 
@@ -44,6 +45,8 @@ class ReqRoomBoot extends Bootable {
     val categorizerConfig = FlowControlConfig(name="categorizerActor", actorType="com.winston.engine.query.actor.CategorizerActor")
     val categorizerActor = FlowControlFactory.flowControlledActorForSystem(system, categorizerConfig) 
     
+    val w2vActor = system.actorOf(Props(classOf[WordVectorAnalyzerActor], nlpActor))
+    
     val engineActor = system.actorOf(Props(classOf[CommandEngineActor], nlpActor, categorizerActor)
     					.withRouter(ClusterRouterConfig(RoundRobinRouter(),ClusterRouterSettings(
     							totalInstances = 100, maxInstancesPerNode = 1, allowLocalRoutees = true,
@@ -54,7 +57,7 @@ class ReqRoomBoot extends Bootable {
     val fbFetch = system.actorOf(Props(classOf[FacebookFetcher], fbBuilder))
     val fbActor = system.actorOf(Props(classOf[FacebookService], fbFetch))
     
-	val service = system.actorOf(Props(classOf[ApiActor], engineActor, fbActor).withRouter(	
+	val service = system.actorOf(Props(classOf[ApiActor], engineActor, fbActor, w2vActor).withRouter(	
 	  ClusterRouterConfig(AdaptiveLoadBalancingRouter(akka.cluster.routing.MixMetricsSelector), 
 	  ClusterRouterSettings(
    	  totalInstances = 100, maxInstancesPerNode = 1,

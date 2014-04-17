@@ -44,11 +44,14 @@ class NearbyType extends QueryType{
   }
   
   def refineQuery(query:String):String = {
-    var refinedQuery = query
+    var refinedQuery = query.toLowerCase()
     
     for(word <- wordBank)
       refinedQuery = refinedQuery.replaceAll(word.string, "")
     
+    if(refinedQuery.charAt(0) == ' ')
+      refinedQuery = refinedQuery.substring(1, refinedQuery.size)
+      
     refinedQuery
   }
   

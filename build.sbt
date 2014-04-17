@@ -48,8 +48,6 @@ libraryDependencies += "org.json4s" %% "json4s-jackson" % "3.2.5"
 
 libraryDependencies += "play" % "play_2.10" % "2.1.0"
 
-libraryDependencies += "org.elasticsearch" % "elasticsearch" % "0.90.0"
-
 libraryDependencies += "org.apache.opennlp" % "opennlp-tools" % "1.5.3"
 
 libraryDependencies += "com.indeed" % "java-dogstatsd-client" % "2.0.7"
@@ -79,6 +77,8 @@ libraryDependencies += "commons-io" % "commons-io" % "2.0.1"
 libraryDependencies += "org.apache.httpcomponents" % "httpclient" % "4.1.2"
 
 libraryDependencies += "com.googlecode.batchfb" % "batchfb" % "2.1.3"
+
+libraryDependencies += "org.elasticsearch" % "elasticsearch" % "0.20.5"
 
 libraryDependencies += "me.champeau.jlangdetect" % "jlangdetect-extra" % "0.3" excludeAll(
         ExclusionRule(organization = "javax.jms"),
