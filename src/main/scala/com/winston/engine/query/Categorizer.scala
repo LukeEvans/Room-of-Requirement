@@ -17,6 +17,7 @@ import com.winston.engine.query.querytype.EntertainmentType
 import com.winston.messaging.QueryTypeContainer
 import com.winston.utlities.Timer
 import com.winston.engine.query.querytype.StocksType
+import com.winston.engine.query.querytype.QuoteType
 
 class Categorizer {
 	var types:ArrayList[QueryType] = new ArrayList[QueryType]
@@ -63,6 +64,9 @@ class Categorizer {
 	  var stocks = new StocksType
 	  stocks.init
 	  types.add(stocks)
+	  var quote = new QuoteType
+	  quote.init
+	  types.add(quote)
 	}
 	
 	//Figure out QueryType based off wordset
