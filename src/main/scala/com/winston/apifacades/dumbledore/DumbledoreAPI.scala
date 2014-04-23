@@ -62,14 +62,47 @@ class DumbledoreAPI {
     
     var json = mapper.writeValueAsString(request)
     
-    println(json)
-    
     val response = Tools.postJsonString(baseURL + "primetime", json)
     
     var cleanRequest = response.replaceAll("\\r", " ").replaceAll("\\n", " ").trim
     val reqJson = mapper.readTree(cleanRequest);
     
         if(reqJson.has("data")){
+      
+      val data = reqJson.get("data")
+      
+      if(data.size() > 0){
+        
+        val stocksNode = data.get(0)
+        
+        val array = new ArrayList[Object]()
+        
+        stocksNode.get("set_data").foreach( node => array.add(node))
+        
+        return array
+      }
+    } 
+    
+    null
+    
+  }
+  
+  
+  /** Donation
+   */
+  def donation():ArrayList[Object] = {
+    
+    var request = new Request()
+    request.addNotificationRequest(new SetRequest("donations", 0, null))
+    
+    var json = mapper.writeValueAsString(request)
+    
+    val response = Tools.postJsonString(baseURL + "primetime", json)
+    
+    var cleanRequest = response.replaceAll("\\r", " ").replaceAll("\\n", " ").trim
+    val reqJson = mapper.readTree(cleanRequest);
+    
+    if(reqJson.has("data")){
       
       val data = reqJson.get("data")
       

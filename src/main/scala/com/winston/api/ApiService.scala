@@ -59,11 +59,8 @@ trait ApiService extends HttpService {
   val apiRoute =
         path(""){
           get{
-        	  //getFromResource("web/index.html") // html index
-            complete{
-              var dialogDB = new DialogDB
-              "Winston Command-Engine API"
-            }
+        	getFromResource("web/index.html") // html index
+
           }
         }~
         path("word2vec"){
@@ -147,11 +144,17 @@ trait ApiService extends HttpService {
         path("health"){
         	complete{"OK."}
         }~
-        pathPrefix("css" / Segment) { file =>
+        pathPrefix("web" / "css" / Segment) { file =>
           get {
             getFromResource("web/css/" + file)
           }
         }~
+        pathPrefix("web" / Segment){
+          file =>
+            get{
+              getFromResource("web/" + file)
+            }
+        }
         path(RestPath) { path =>
           val resourcePath = "/usr/local/reducto-dist" + "/config/loader/" + path
           getFromFile(resourcePath)

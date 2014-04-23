@@ -4,6 +4,20 @@
 	margin-left: auto;
 }
 
+#graph-search{
+	width: 500px;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+#graph-search-input{
+	width:500px;
+	margin-right: auto;
+	margin-left: auto;
+	
+}
+
+
 #tool_div{
 	width: 160px;
 	margin-left: auto;
@@ -11,34 +25,4 @@
 
 .title{
 	font-size: 16pt;
-}
-
-.input_area{
-	width: 550px;
-	height: 40px;	
-}
-
-.input_area2{
-	width: 550px;
-	height: 150px;	
-}
-
-.input_box{
-	width: 550px;
-}
-
-.submit_button{
-	width: 55px;
-	margin-left: auto;
-	position:relative;
-}
-
-.checkbox_div{
-
-	margin-right: auto;
-	position:relative;
-}
-
-.input_box_small{
-	width: 40px;
 }
