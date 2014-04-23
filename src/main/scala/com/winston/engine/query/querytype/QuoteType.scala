@@ -18,9 +18,9 @@ class QuoteType extends QueryType{
   
 	override def process(query:String, creds:UserCredentials):QueryData = {
 	  
-	  val stocksSet = dumbledore.quote
+	  val quoteSet = dumbledore.quote
 	  
 	  var data = new QueryData 
-	  data.addSet(stocksSet)
+	  data.addSet(quoteSet)
 	}
 }
